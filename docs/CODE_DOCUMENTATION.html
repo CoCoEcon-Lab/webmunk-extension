@@ -1,0 +1,3854 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Webmunk Extension Documentation</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; margin: 0; line-height: 1.6; color: #1f2a44; background: #f4f7fb; }
+header { background: linear-gradient(120deg, #0f1b40, #1f4b99); color: white; padding: 2.5rem 3rem; box-shadow: inset 0 -1px rgba(255,255,255,0.2); }
+header h1 { font-weight: 700; color: #ffffff; }
+header p { margin-bottom: 0; opacity: 0.85; }
+main { display: flex; min-height: calc(100vh - 120px); }
+nav { width: 300px; padding: 1.5rem; background: #fff; border-right: 1px solid #dbe2ef; position: sticky; top: 0; height: calc(100vh - 0px); overflow-y: auto; box-shadow: 2px 0 6px rgba(15,27,64,0.05); }
+nav h2 { margin-top: 0; font-size: 1.1rem; }
+#nav-search { width: 100%; padding: 0.45rem 0.7rem; margin-bottom: 1rem; border: 1px solid #cbd2d9; border-radius: 6px; font-size: 0.95rem; }
+nav ul { list-style: none; padding-left: 0.6rem; margin: 0; }
+nav li { margin: 0.35rem 0; }
+nav a { color: #0a74da; text-decoration: none; font-size: 0.94rem; display: inline-block; padding: 0.1rem 0.2rem; border-radius: 4px; }
+nav li.active > a { background: rgba(10,116,218,0.12); font-weight: 600; color: #0f1b40; }
+article { flex: 1; padding: 2.5rem 3.5rem; max-width: 1100px; margin: 0 auto; background: #fff; box-shadow: 0 0 20px rgba(15,27,64,0.05); }
+article h2, article h3 { scroll-margin-top: 80px; }
+article h2:target, article h3:target { background: #f0f6ff; padding: 0.3rem 0.5rem; border-radius: 4px; }
+code { background: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+pre { background: #10172a; color: #f8f8f2; padding: 1rem; overflow-x: auto; border-radius: 8px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; white-space: pre; }
+pre code { background: transparent; padding: 0; border-radius: 0; color: inherit; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; font-size: 0.96rem; background: #fbfdff; }
+th, td { border: 1px solid #dbe2ef; padding: 8px; vertical-align: top; }
+th { background: #f0f4f8; font-weight: 600; }
+blockquote { border-left: 4px solid #c0d3eb; margin: 1rem 0; padding-left: 1rem; color: #42536b; background: #f8fbff; }
+h1, h2, h3 { color: #0f1b40; }
+hr { margin: 3rem 0; border: none; border-top: 1px solid #e0e6ef; }
+.mermaid { background: #fff; border: 1px solid #dbe2ef; border-radius: 8px; padding: 1rem; margin: 1.2rem 0; }
+#scrollTop { position: fixed; bottom: 30px; right: 30px; background: #0a74da; color: white; border: none; padding: 0.6rem 0.95rem; border-radius: 999px; cursor: pointer; box-shadow: 0 10px 25px rgba(10,116,218,0.35); font-size: 1.1rem; }
+#scrollTop:hover { background: #0c5fb6; }
+@media (max-width: 1100px) { main { flex-direction: column; } nav { position: relative; height: auto; width: 100%; border-right: none; border-bottom: 1px solid #dbe2ef; box-shadow: none; } article { padding: 1.5rem; box-shadow: none; } }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.5/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'forest' });</script>
+</head>
+<body>
+<header>
+  <h1><strong>Webmunk Extension - Complete Code Documentation</strong></h1>
+  <p>Chrome Extension for Ad Tracking, Cookie Collection, and Ad Personalization Research</p>
+</header>
+<main>
+  <nav>
+    <h2>Navigate</h2>
+    <input type='search' id='nav-search' placeholder='Filter sections…'>
+    <div id='nav-content'>
+      <ul>
+        <li><a href='#table-of-contents'>Table of Contents</a></li>
+        <li><a href='#introduction'>Introduction</a>
+          <ul>
+            <li><a href='#what-this-extension-does'>What This Extension Does</a></li>
+            <li><a href='#architecture-overview'>Architecture Overview</a></li>
+            <li><a href='#key-technologies'>Key Technologies</a></li>
+          </ul>
+        </li>
+        <li><a href='#developer-quickstart'>Developer Quickstart</a></li>
+        <li><a href='#repository-map'>Repository Map</a></li>
+        <li><a href='#flow-diagrams'>Flow Diagrams</a>
+          <ul>
+            <li><a href='#diagram-1-extension-architecture'>Diagram 1: Extension Architecture</a></li>
+            <li><a href='#diagram-2-module-system'>Diagram 2: Module System</a></li>
+            <li><a href='#diagram-3-data-flow'>Diagram 3: Data Flow</a></li>
+            <li><a href='#diagram-4-build-process'>Diagram 4: Build Process</a></li>
+          </ul>
+        </li>
+        <li><a href='#core-extension-files'>Core Extension Files</a>
+          <ul>
+            <li><a href='#manifest-configuration'>Manifest Configuration</a></li>
+            <li><a href='#background-worker'>Background Worker</a></li>
+            <li><a href='#worker-services'>Worker Services</a></li>
+            <li><a href='#content-script'>Content Script</a></li>
+            <li><a href='#popup'>Popup</a></li>
+            <li><a href='#configuration'>Configuration</a></li>
+          </ul>
+        </li>
+        <li><a href='#module-system'>Module System</a>
+          <ul>
+            <li><a href='#messenger-system'>Messenger System</a></li>
+            <li><a href='#extension-ads-module'>Extension Ads Module</a></li>
+            <li><a href='#cookies-module'>Cookies Module</a></li>
+            <li><a href='#ad-personalization-module'>Ad Personalization Module</a></li>
+          </ul>
+        </li>
+        <li><a href='#event-system'>Event System</a></li>
+        <li><a href='#storage-keys'>Storage Keys</a></li>
+        <li><a href='#build-system'>Build System</a></li>
+        <li><a href='#firebase-integration'>Firebase Integration</a></li>
+        <li><a href='#external-services'>External Services</a></li>
+        <li><a href='#data-flow-details'>Data Flow Details</a></li>
+        <li><a href='#deployment-instructions'>Deployment Instructions</a></li>
+        <li><a href='#extension-guide'>Extension Guide for Research</a></li>
+        <li><a href='#required-knowledge'>Required Knowledge</a></li>
+        <li><a href='#common-patterns'>Common Patterns & Best Practices</a></li>
+        <li><a href='#troubleshooting'>Troubleshooting & Debugging</a></li>
+        <li><a href='#summary'>Summary</a></li>
+      </ul>
+    </div>
+  </nav>
+  <article>
+<h1 id="webmunk-extension-complete-code-documentation">Webmunk Extension - Complete Code Documentation</h1>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#introduction">Introduction</a>
+   <ul>
+   <li><a href="#what-this-extension-does">What This Extension Does</a></li>
+   <li><a href="#architecture-overview">Architecture Overview</a></li>
+   <li><a href="#key-technologies">Key Technologies</a></li>
+   </ul>
+</li>
+<li><a href="#developer-quickstart">Developer Quickstart</a></li>
+<li><a href="#repository-map">Repository Map</a></li>
+<li><a href="#flow-diagrams">Flow Diagrams</a></li>
+<li><a href="#core-extension-files">Core Extension Files</a></li>
+<li><a href="#module-system">Module System</a></li>
+<li><a href="#event-system">Event System</a></li>
+<li><a href="#storage-keys">Storage Keys</a></li>
+<li><a href="#build-system">Build System</a></li>
+<li><a href="#firebase-integration">Firebase Integration</a></li>
+<li><a href="#external-services">External Services</a></li>
+<li><a href="#data-flow-details">Data Flow Details</a></li>
+<li><a href="#deployment-instructions">Deployment Instructions</a></li>
+<li><a href="#extension-guide">Extension Guide for Research</a></li>
+<li><a href="#required-knowledge">Required Knowledge</a></li>
+<li><a href="#common-patterns">Common Patterns & Best Practices</a></li>
+<li><a href="#troubleshooting">Troubleshooting & Debugging</a></li>
+<li><a href="#summary">Summary</a></li>
+</ol>
+
+<hr />
+
+<h2 id="introduction">Introduction</h2>
+
+<h3 id="what-this-extension-does">What This Extension Does</h3>
+
+<p><strong>Basics:</strong> The Webmunk Extension is a Chrome extension designed for behavioral research on online advertising. It tracks advertisements displayed to users, collects cookie information, monitors ad personalization settings, and captures user interactions with ads. The extension enables researchers to study how users perceive and interact with online advertising in their natural browsing environment.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Ad Detection & Tracking</strong>: Automatically detects and tracks ads on web pages using URL filtering and cosmetic filtering techniques</li>
+<li><strong>Ad Rating System</strong>: Prompts users to rate ad relevance and distraction with a 10-minute cooldown between prompts</li>
+<li><strong>Cookie Collection</strong>: Collects and stores cookie information for analysis (respects 900KB payload limit)</li>
+<li><strong>Ad Personalization Tracking</strong>: Monitors ad personalization settings on Google/YouTube, Facebook, and Amazon</li>
+<li><strong>Survey Management</strong>: Loads and tracks survey completion from Firebase Remote Config</li>
+<li><strong>Screenshot Analysis</strong>: Captures screenshots of pages for analysis (with 1-minute throttling)</li>
+<li><strong>Event Tracking</strong>: Sends all events to Jitsu analytics, which forwards to BigQuery for data analysis</li>
+</ul>
+
+<h3 id="architecture-overview">Architecture Overview</h3>
+
+<p>The Webmunk Extension follows a <strong>modular architecture</strong> built on Chrome Extension Manifest V3:</p>
+
+<ul>
+<li><strong>Framework</strong>: Chrome Extension Manifest V3 (service worker-based)</li>
+<li><strong>Language</strong>: TypeScript (compiled to JavaScript)</li>
+<li><strong>Build System</strong>: Webpack with custom loaders and plugins</li>
+<li><strong>Module System</strong>: Custom messenger-based communication system for decoupled modules</li>
+<li><strong>External Services</strong>:
+  <ul>
+  <li>Firebase (Authentication, Firestore, Remote Config, Storage, Cloud Functions)</li>
+  <li>Jitsu (Event tracking and data ingestion)</li>
+  <li>BigQuery (Data warehouse for analytics)</li>
+  </ul>
+</li>
+</ul>
+
+<p><strong>Main Components:</strong></p>
+<ol>
+<li><strong>Background Worker</strong> (Service Worker): Main extension logic, event coordination, module management</li>
+<li><strong>Content Scripts</strong>: Injected into web pages to detect ads, show notifications, track interactions</li>
+<li><strong>Popup UI</strong>: User registration, survey list display, identifier management</li>
+<li><strong>Modules</strong>: Pluggable components (extension-ads, cookies, ad-personalization)</li>
+</ol>
+
+<h3 id="key-technologies">Key Technologies</h3>
+
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Purpose</th>
+<th>Version/Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TypeScript</td>
+<td>Type-safe JavaScript development</td>
+<td>5.6.2+</td>
+</tr>
+<tr>
+<td>Webpack</td>
+<td>Module bundling and build system</td>
+<td>5.92.1+</td>
+</tr>
+<tr>
+<td>Firebase</td>
+<td>Backend services (Auth, Firestore, Remote Config, Storage, Functions)</td>
+<td>10.14.0+</td>
+</tr>
+<tr>
+<td>Jitsu</td>
+<td>Event tracking and data pipeline</td>
+<td>@jitsu/js 1.9.17+</td>
+</tr>
+<tr>
+<td>Chrome Extension APIs</td>
+<td>Browser extension functionality</td>
+<td>Manifest V3</td>
+</tr>
+<tr>
+<td>uBlock Origin (forked)</td>
+<td>Ad blocking and filtering engine</td>
+<td>Included in extension-ads module</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="developer-quickstart">Developer Quickstart</h2>
+
+<p>This documentation is optimized for developers and researchers who want to understand, modify, or extend the extension. Use this fast path to orient yourself:</p>
+
+<blockquote>
+<p>⚠️ <strong>Before You Start:</strong> Read the <a href="#what-this-extension-does">"What This Extension Does"</a> section above to understand the core concepts (ad detection, module system, event tracking, etc.). This will make everything else much clearer.</p>
+</blockquote>
+
+<h3 id="installation-instructions">Installation Instructions</h3>
+
+<p><strong>Step 1: Install Dependencies</strong></p>
+
+<p>Navigate to the <code>webmunk-ext</code> directory and install all required dependencies:</p>
+
+<pre><code class="language-bash">cd webmunk-ext
+npm install
+npm install @webmunk/cookies-scraper
+npm install @webmunk/extension-ads
+npm install @webmunk/ad-personalization
+npm install @webmunk/utils
+</code></pre>
+
+<p><strong>Step 2: Set Up Environment Variables</strong></p>
+
+<p>Create environment variable files in the <code>webmunk-ext/</code> directory:</p>
+
+<ul>
+<li><code>.env.development</code> - For development builds</li>
+<li><code>.env.production</code> - For production builds</li>
+</ul>
+
+<p>Required environment variables (see <a href="#configuration">Configuration</a> section for details):</p>
+<ul>
+<li>Firebase: <code>FIREBASE_API_KEY</code>, <code>FIREBASE_PROJECT_ID</code>, <code>FIREBASE_MESSAGING_SENDER_ID</code>, <code>FIREBASE_APP_ID</code>, <code>FIREBASE_BUCKET_URL</code></li>
+<li>Jitsu: <code>JITSU_WRITE_KEY</code>, <code>JITSU_INGEST_URL</code></li>
+<li>URLs: <code>WEBMUNK_URL</code>, <code>UNINSTALL_URL</code></li>
+<li>Timing delays: <code>DELAY_BETWEEN_SURVEY</code>, <code>DELAY_WHILE_AD_BLOCKER_OR_TO_SECOND_SURVEY</code>, <code>DELAY_BETWEEN_AD_PERSONALIZATION</code>, etc.</li>
+</ul>
+
+<p><strong>Step 3: Set Up Firebase, Jitsu & BigQuery</strong></p>
+
+<p>For detailed setup instructions for Firebase, Jitsu, and BigQuery integration, refer to:</p>
+
+<pre><code>jitsu-bigquery-firebase-setup.md
+</code></pre>
+
+<p>This guide covers:</p>
+<ul>
+<li>Deploying Jitsu via Elestio</li>
+<li>Configuring BigQuery as a Jitsu destination</li>
+<li>Setting up Firebase services (Auth, Firestore, Remote Config, Storage, Functions)</li>
+<li>Integrating Jitsu SDK in the extension</li>
+</ul>
+
+<p><strong>Step 4: Build the Extension</strong></p>
+
+<p><strong>Development Build (with hot-reloading):</strong></p>
+
+<pre><code class="language-bash">npm run addon:dev:hot
+</code></pre>
+
+<p>This creates an unpackaged development build in the <code>dist/</code> directory. The build includes hot-reloading for faster development iteration.</p>
+
+<p><strong>Production Build:</strong></p>
+
+<pre><code class="language-bash">npm run addon:build:prod
+</code></pre>
+
+<p>This creates an optimized production build in the <code>dist/</code> directory.</p>
+
+<p><strong>Production Build with Zip (for Chrome Web Store):</strong></p>
+
+<pre><code class="language-bash">npm run addon:build:prod-zip
+</code></pre>
+
+<p>This creates a production build and a zip file in the <code>builds/</code> directory that can be uploaded to the Chrome Web Store.</p>
+
+<p><strong>Step 5: Load Extension in Chrome</strong></p>
+
+<ol>
+<li>Open Chrome and navigate to <code>chrome://extensions/</code></li>
+<li>Enable "Developer mode" (toggle in top-right corner)</li>
+<li>Click "Load unpacked"</li>
+<li>Select the <code>webmunk-ext/dist/</code> directory</li>
+<li>The extension should now appear in your extensions list</li>
+</ol>
+
+<p><strong>Step 6: Debug the Extension</strong></p>
+
+<ul>
+<li><strong>Service Worker:</strong> Click the "service worker" link in the extension card to open DevTools</li>
+<li><strong>Content Scripts:</strong> Open Chrome DevTools (F12) on any web page to debug content scripts</li>
+<li><strong>Popup:</strong> Right-click the extension icon → "Inspect popup"</li>
+<li><strong>Storage:</strong> Service Worker DevTools → Application tab → Storage → chrome.storage.local</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Where to look</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1️⃣ Understand the structure</td>
+<td><a href="#repository-map">Repository Map</a></td>
+<td>Know which folder controls each part of the extension.</td>
+</tr>
+<tr>
+<td>2️⃣ Trace the runtime flow</td>
+<td><a href="#flow-diagrams">Flow Diagrams</a></td>
+<td>Visualize component interactions, data flows, and module communication.</td>
+</tr>
+<tr>
+<td>3️⃣ Dive into the code</td>
+<td><a href="#core-extension-files">Core Extension Files</a> &amp; <a href="#module-system">Module System</a></td>
+<td>Modify extension logic, add features, or create new modules.</td>
+</tr>
+<tr>
+<td>4️⃣ Set up your environment</td>
+<td><a href="#deployment-instructions">Deployment Instructions</a></td>
+<td>Configure Firebase, Jitsu, and build the extension for development.</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>🧭 <strong>Tip:</strong> Use your editor's "go to file" with the paths listed in each section to jump directly to the relevant code.</p>
+</blockquote>
+
+<h3 id="common-pitfalls-gotchas">Common Pitfalls &amp; Gotchas</h3>
+
+<ul>
+<li><strong>Module Registration Order:</strong> Modules must be imported before the Worker class initializes. Import order matters in <code>src/worker/index.ts</code>.</li>
+<li><strong>Messenger Action Format:</strong> Actions must follow <code>receiver.method</code> pattern (e.g., <code>webmunkExt.popup.loginReq</code>). Incorrect format will cause silent failures.</li>
+<li><strong>Chrome Storage Limits:</strong> Cookie data is limited to 900KB per payload. The CookiesWorker automatically truncates if needed.</li>
+<li><strong>Service Worker Lifecycle:</strong> Service workers can be terminated by Chrome. State should be persisted in <code>chrome.storage.local</code>, not in-memory variables.</li>
+<li><strong>Content Script Isolation:</strong> Content scripts run in isolated worlds. They cannot directly access page JavaScript variables or modify page context.</li>
+<li><strong>Environment Variables:</strong> Must be set in <code>.env.development</code> or <code>.env.production</code> files. Webpack's Dotenv plugin injects them at build time.</li>
+</ul>
+
+<hr />
+
+<h2 id="repository-map">Repository Map</h2>
+
+<p>A bird's-eye view of the project folders. Follow the "Docs section" column to jump to the detailed explanation.</p>
+
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+<th>Key Files</th>
+<th>Docs section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>webmunk-ext/</code></td>
+<td>Main extension code</td>
+<td><code>src/worker/Worker.ts</code>, <code>src/content/Content.ts</code>, <code>src/popup/Popup.ts</code></td>
+<td><a href="#core-extension-files">Core Extension Files</a></td>
+</tr>
+<tr>
+<td><code>webmunk-ext/src/worker/</code></td>
+<td>Background service worker and services</td>
+<td><code>Worker.ts</code>, <code>EventService.ts</code>, <code>FirebaseAppService.ts</code>, <code>SurveyService.ts</code></td>
+<td><a href="#background-worker">Background Worker</a></td>
+</tr>
+<tr>
+<td><code>webmunk-ext/src/content/</code></td>
+<td>Content scripts injected into pages</td>
+<td><code>Content.ts</code>, <code>NotificationService.ts</code></td>
+<td><a href="#content-script">Content Script</a></td>
+</tr>
+<tr>
+<td><code>webmunk-ext/src/popup/</code></td>
+<td>Extension popup UI</td>
+<td><code>Popup.ts</code>, <code>popup.html</code>, <code>popup.css</code></td>
+<td><a href="#popup">Popup</a></td>
+</tr>
+<tr>
+<td><code>packages/modules/extension-ads/</code></td>
+<td>Ad detection and tracking module (uBlock-based)</td>
+<td><code>src/worker/ExtensionAdsWorker.ts</code>, <code>src/content/content.js</code></td>
+<td><a href="#extension-ads-module">Extension Ads Module</a></td>
+</tr>
+<tr>
+<td><code>packages/modules/cookies/</code></td>
+<td>Cookie collection module</td>
+<td><code>src/worker/CookiesWorker.ts</code></td>
+<td><a href="#cookies-module">Cookies Module</a></td>
+</tr>
+<tr>
+<td><code>packages/modules/ad-personalization/</code></td>
+<td>Ad personalization tracking module</td>
+<td><code>src/worker/AdPersonalizationWorker.ts</code>, <code>src/content/AdPersonalizationContent.ts</code></td>
+<td><a href="#ad-personalization-module">Ad Personalization Module</a></td>
+</tr>
+<tr>
+<td><code>packages/utils/</code></td>
+<td>Shared utilities (messenger system)</td>
+<td><code>src/messenger.js</code>, <code>src/sessionMgr.js</code></td>
+<td><a href="#messenger-system">Messenger System</a></td>
+</tr>
+<tr>
+<td><code>packages/utils-scripts/</code></td>
+<td>Build-time utilities</td>
+<td><code>scripts/mergeManifests.js</code>, <code>scripts/depsFromModules.js</code></td>
+<td><a href="#build-system">Build System</a></td>
+</tr>
+<tr>
+<td><code>functions/</code></td>
+<td>Firebase Cloud Functions</td>
+<td><code>src/signIn.ts</code>, <code>src/analyzeScreenshot.ts</code>, <code>src/uninstall.ts</code></td>
+<td><a href="#firebase-integration">Firebase Integration</a></td>
+</tr>
+<tr>
+<td><code>webmunk-ext/src/chrome/</code></td>
+<td>Manifest configuration</td>
+<td><code>baseManifest.json</code></td>
+<td><a href="#manifest-configuration">Manifest Configuration</a></td>
+</tr>
+<tr>
+<td><code>webmunk-ext/webpack.*.js</code></td>
+<td>Webpack build configurations</td>
+<td><code>webpack.addon.config.base.js</code>, <code>webpack.addon.config.dev.js</code></td>
+<td><a href="#build-system">Build System</a></td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="flow-diagrams">Flow Diagrams</h2>
+
+<h3 id="diagram-1-extension-architecture">Diagram 1: Extension Architecture Flow</h3>
+
+<p>This diagram shows the complete extension architecture and component interactions:</p>
+
+<div class="mermaid">
+flowchart TB
+    subgraph Browser["Chrome Browser"]
+        subgraph Extension["Webmunk Extension"]
+            SW[Service Worker<br/>Worker.ts]
+            CS[Content Scripts<br/>Content.ts]
+            PU[Popup UI<br/>Popup.ts]
+            
+            subgraph Modules["Modules"]
+                EA[Extension Ads<br/>Module]
+                CO[Cookies<br/>Module]
+                AP[Ad Personalization<br/>Module]
+            end
+            
+            subgraph Services["Worker Services"]
+                ES[EventService]
+                FS[FirebaseAppService]
+                SS[SurveyService]
+                DS[DomainService]
+                SC[ScreenshotService]
+                NS[NotificationService]
+                CF[ConfigService]
+            end
+        end
+        
+        subgraph WebPages["Web Pages"]
+            WP1[Page 1]
+            WP2[Page 2]
+            WP3[Page N...]
+        end
+    end
+    
+    subgraph External["External Services"]
+        FB[Firebase<br/>Auth/Firestore/Config]
+        JI[Jitsu<br/>Analytics]
+        BQ[BigQuery<br/>Data Warehouse]
+    end
+    
+    SW -->|Manages| Services
+    SW -->|Coordinates| Modules
+    CS -->|Injected into| WebPages
+    CS -->|Messages| SW
+    PU -->|User Actions| SW
+    Modules -->|Events| SW
+    SW -->|Tracks Events| ES
+    ES -->|Sends to| JI
+    JI -->|Forwards to| BQ
+    SW -->|Auth/Config| FS
+    FS -->|Connects to| FB
+    SW -->|Screenshots| SC
+    SC -->|Uploads to| FB
+</div>
+
+<p><strong>Key Interactions:</strong></p>
+<ul>
+<li><strong>Service Worker</strong> is the central coordinator, managing all services and modules</li>
+<li><strong>Content Scripts</strong> run in every web page, detecting ads and showing notifications</li>
+<li><strong>Popup</strong> handles user registration and displays survey information</li>
+<li><strong>Modules</strong> emit events that the Worker listens to and processes</li>
+<li><strong>Services</strong> handle specific responsibilities (Firebase, events, surveys, etc.)</li>
+<li><strong>External Services</strong> provide backend functionality and data storage</li>
+</ul>
+
+<h3 id="diagram-2-module-system">Diagram 2: Module System Architecture</h3>
+
+<p>This diagram shows how the messenger system enables module communication:</p>
+
+<div class="mermaid">
+sequenceDiagram
+    participant Main as Main Worker
+    participant MSG as Messenger System
+    participant Mod1 as Module 1<br/>(extension-ads)
+    participant Mod2 as Module 2<br/>(cookies)
+    participant Mod3 as Module 3<br/>(ad-personalization)
+    
+    Note over Main,Mod3: Module Registration Phase
+    Mod1->>MSG: registerModule('ads-scraper')
+    Mod2->>MSG: registerModule('cookies-scraper')
+    Mod3->>MSG: registerModule('ad-personalization')
+    Main->>MSG: addModuleListener('ads-scraper', callback)
+    Main->>MSG: addModuleListener('cookies-scraper', callback)
+    Main->>MSG: addModuleListener('ad-personalization', callback)
+    
+    Note over Main,Mod3: Runtime Communication Phase
+    Mod1->>MSG: emit('ad_detected', data)
+    MSG->>Main: onModuleEvent('ad_detected', data)
+    Main->>MSG: sendToMainPage(tabId, 'extensionAdsAppMgr', 'action', data)
+    MSG->>Mod1: _onMessage_action(data)
+    Mod1-->>MSG: response
+    MSG-->>Main: response
+</div>
+
+<p><strong>Messenger System Features:</strong></p>
+<ul>
+<li><strong>Module Registration</strong>: Modules call <code>messenger.registerModule(name)</code> to get an event emitter</li>
+<li><strong>Event Emission</strong>: Modules emit events via <code>eventEmitter.emit(eventName, data)</code></li>
+<li><strong>Event Listening</strong>: Main worker listens via <code>messenger.addModuleListener(moduleName, callback)</code></li>
+<li><strong>Action-Based Routing</strong>: Messages use <code>receiver.method</code> format for routing</li>
+<li><strong>Frame Communication</strong>: Supports communication with iframes and different frame contexts</li>
+</ul>
+
+<h3 id="diagram-3-data-flow">Diagram 3: Data Flow</h3>
+
+<p>This diagram shows how data flows through the system from user actions to analytics:</p>
+
+<div class="mermaid">
+flowchart LR
+    subgraph UserActions["User Actions"]
+        U1[User Browsing]
+        U2[Ad Detected]
+        U3[User Rates Ad]
+        U4[User Completes Survey]
+    end
+    
+    subgraph Extension["Extension Processing"]
+        CS[Content Script<br/>Detects Ad]
+        SW[Service Worker<br/>Processes Event]
+        ES[EventService<br/>Tracks Event]
+        MS[Module System<br/>Emits Events]
+    end
+    
+    subgraph Storage["Local Storage"]
+        LS[chrome.storage.local<br/>User Data/Config]
+    end
+    
+    subgraph External["External Services"]
+        FB[Firebase<br/>Auth/Config/Storage]
+        JI[Jitsu<br/>Event Ingestion]
+        BQ[BigQuery<br/>Data Warehouse]
+    end
+    
+    U1 --> CS
+    U2 --> CS
+    CS --> MS
+    MS --> SW
+    SW --> ES
+    U3 --> SW
+    U4 --> SW
+    SW --> LS
+    SW --> FB
+    ES --> JI
+    JI --> BQ
+    FB --> SW
+</div>
+
+<p><strong>Data Flow Paths:</strong></p>
+<ol>
+<li><strong>Ad Detection Flow</strong>: Page Load → Content Script → Module Detection → Worker Processing → Event Tracking → Jitsu → BigQuery</li>
+<li><strong>User Registration Flow</strong>: Popup Input → Worker → Firebase Auth → Firestore Storage → Local Storage</li>
+<li><strong>Survey Flow</strong>: Remote Config → Worker → Local Storage → Popup Display → Completion Detection → Event Tracking</li>
+<li><strong>Screenshot Flow</strong>: Page Action → Worker → Screenshot Capture → Firebase Storage → Analysis API → Event Tracking</li>
+</ol>
+
+<h3 id="diagram-4-build-process">Diagram 4: Build Process</h3>
+
+<p>This diagram shows the webpack build and module bundling process:</p>
+
+<div class="mermaid">
+flowchart TD
+    Start[Source Files] --> Webpack[Webpack Build]
+    
+    subgraph EntryPoints["Entry Points"]
+        EP1[content/index.ts]
+        EP2[worker/index.ts]
+        EP3[popup/Popup.ts]
+        EP4[options/options.js]
+    end
+    
+    subgraph Loaders["Webpack Loaders"]
+        TS[ts-loader<br/>TypeScript]
+        Babel[babel-loader<br/>JavaScript]
+        Preproc[webpack-preprocessor-loader<br/>Conditional Code]
+    end
+    
+    subgraph Plugins["Webpack Plugins"]
+        Manifest[WebpackExtensionManifestPlugin<br/>Merge Manifests]
+        Copy[CopyPlugin<br/>Assets/Icons]
+        Dotenv[Dotenv<br/>Environment Variables]
+        Zip[ZipPlugin<br/>Production Build]
+    end
+    
+    subgraph Output["Output"]
+        Dist[dist/ Directory]
+        ContentJS[content.js]
+        BackgroundJS[background.js]
+        PopupJS[popup/popup.js]
+        ManifestJSON[manifest.json]
+    end
+    
+    EntryPoints --> Webpack
+    Webpack --> Loaders
+    Loaders --> Plugins
+    Plugins --> Output
+    Output --> Dist
+</div>
+
+<p><strong>Build Steps:</strong></p>
+<ol>
+<li><strong>Module Discovery</strong>: <code>mergeManifests.js</code> scans <code>packages/modules/</code> for <code>module.json</code> files</li>
+<li><strong>Manifest Merging</strong>: Base manifest merged with module manifests (permissions, host_permissions)</li>
+<li><strong>TypeScript Compilation</strong>: <code>ts-loader</code> compiles TypeScript files to JavaScript</li>
+<li><strong>Module Bundling</strong>: Webpack bundles all modules and dependencies</li>
+<li><strong>Asset Copying</strong>: Icons, images, and web accessible resources copied to dist</li>
+<li><strong>Environment Injection</strong>: Dotenv plugin injects environment variables at build time</li>
+<li><strong>Production Optimization</strong>: Minification and optimization for production builds</li>
+</ol>
+
+<hr />
+
+<h2 id="core-extension-files">Core Extension Files</h2>
+
+<h3 id="manifest-configuration">Manifest Configuration</h3>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/chrome/baseManifest.json</code><br />
+<strong>Purpose</strong>: Defines the Chrome extension manifest (Manifest V3)</p>
+
+<p><strong>Key Configuration:</strong></p>
+
+<pre><code class="language-json">{
+    "manifest_version": 3,
+    "name": "Ad Study",
+    "version": "1.5",
+    "background": { "service_worker": "background.js" },
+    "content_scripts": [{
+        "matches": ["&lt;all_urls&gt;"],
+        "js": ["content.js"],
+        "run_at": "document_start",
+        "all_frames": true,
+        "match_about_blank": true
+    }],
+    "permissions": ["management"],
+    "host_permissions": ["&lt;all_urls&gt;", "*://*/*"]
+}
+</code></pre>
+
+<p><strong>Permissions Explained:</strong></p>
+<ul>
+<li><strong>management</strong>: Allows checking installed extensions (for tracking purposes)</li>
+<li><strong>host_permissions: ["&lt;all_urls&gt;"]</strong>: Required to inject content scripts into all web pages</li>
+<li><strong>Additional permissions</strong> are added by modules via <code>module.json</code> files and merged during build</li>
+</ul>
+
+<p><strong>Manifest Merging:</strong> During build, <code>mergeManifests.js</code> scans all modules and merges their permissions into the base manifest. See <a href="#build-system">Build System</a> for details.</p>
+
+<h3 id="background-worker">Background Worker</h3>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/Worker.ts</code><br />
+<strong>Purpose</strong>: Main service worker that coordinates all extension functionality</p>
+
+<p><strong>Initialization Sequence</strong> (<code>initialize()</code> method, lines 50-61):</p>
+
+<pre><code class="language-typescript">public async initialize(): Promise&lt;void&gt; {
+  await this.firebaseAppService.login();
+  await this.surveyService.initSurveysIfExists();
+  await this.domainService.initExcludedDomains(ExcludedDomains.url_tracking);
+  await this.domainService.initExcludedDomains(ExcludedDomains.screenshots);
+
+  messenger.addReceiver('appMgr', this);
+  messenger.addModuleListener('ads-scraper', this.onModuleEvent.bind(this));
+  messenger.addModuleListener('cookies-scraper', this.onModuleEvent.bind(this));
+  messenger.addModuleListener('ad-personalization', this.onAdPersonalizationModuleEvent.bind(this));
+  chrome.runtime.onMessage.addListener(this.onPopupMessage.bind(this),);
+  chrome.tabs.onUpdated.addListener(this.onUrlTracking.bind(this));
+}
+</code></pre>
+
+<p><strong>Note:</strong> <code>initExcludedDomains()</code> is called twice with different config keys (<code>ExcludedDomains.url_tracking</code> and <code>ExcludedDomains.screenshots</code>) because excluded domains are managed separately for URL tracking and screenshot capture. This allows different exclusion lists for each feature.</p>
+
+<p><strong>Key Responsibilities:</strong></p>
+<ol>
+<li><strong>Service Initialization</strong>: Sets up Firebase, surveys, and excluded domains</li>
+<li><strong>Module Coordination</strong>: Registers as message receiver and listens to module events</li>
+<li><strong>Tab Tracking</strong>: Monitors URL changes and triggers appropriate actions</li>
+<li><strong>Popup Communication</strong>: Handles user registration and survey management</li>
+<li><strong>Ad Personalization Checking</strong>: Periodically checks ad personalization settings</li>
+<li><strong>Extension Lifecycle</strong>: Determines when extension should be removed:
+   <ul>
+   <li>If ad blocker enabled and week passed: Show remove notification</li>
+   <li>If 2 surveys completed AND (all ad personalization settings checked OR all unchecked items exceeded max retry attempts): Show remove notification</li>
+   </ul>
+</li>
+</ol>
+
+<p><strong>Key Methods:</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Purpose</th>
+<th>Called When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>initialize()</code></td>
+<td>Initializes all services and sets up listeners</td>
+<td>Service worker startup</td>
+</tr>
+<tr>
+<td><code>onUrlTracking()</code></td>
+<td>Handles URL changes, triggers middleware, screenshots</td>
+<td>Tab URL changes (status === 'complete')</td>
+</tr>
+<tr>
+<td><code>onModuleEvent()</code></td>
+<td>Processes events from modules (ads, cookies)</td>
+<td>Module emits event</td>
+</tr>
+<tr>
+<td><code>checkAdPersonalization()</code></td>
+<td>Checks ad personalization settings on configured sites</td>
+<td>URL tracking, with 2-day cooldown</td>
+</tr>
+<tr>
+<td><code>isExtensionHasToBeRemoved()</code></td>
+<td>Determines if extension should prompt for removal</td>
+<td>Before showing notifications</td>
+</tr>
+<tr>
+<td><code>onPopupMessage()</code></td>
+<td>Handles messages from popup (login, registration)</td>
+<td>Popup sends message</td>
+</tr>
+<tr>
+<td><code>checkAdPersonalization()</code></td>
+<td>Checks ad personalization settings on configured sites</td>
+<td>URL tracking, with 2-day cooldown</td>
+</tr>
+<tr>
+<td><code>shouldLimitAdPersonalization()</code></td>
+<td>Determines if retry logic should be used (after 2 surveys)</td>
+<td>Called by <code>checkAdPersonalization()</code></td>
+</tr>
+<tr>
+<td><code>sendAdPersonalizationWithoutLimit()</code></td>
+<td>Sends ad personalization check requests without retry limits</td>
+<td>When <code>shouldLimitAdPersonalization()</code> returns false</td>
+</tr>
+<tr>
+<td><code>sendAdPersonalizationWithLimit()</code></td>
+<td>Sends ad personalization check requests with retry limits (3 attempts, 5-min intervals)</td>
+<td>When <code>shouldLimitAdPersonalization()</code> returns true</td>
+</tr>
+<tr>
+<td><code>incrementAdPersonalizationAttempt()</code></td>
+<td>Increments retry attempt counter for a personalization key</td>
+<td>When tab closes prematurely during limited retry</td>
+</tr>
+<tr>
+<td><code>isAllAdPersonalizationSettingsChecked()</code></td>
+<td>Checks if all personalization items have been successfully checked</td>
+<td>Called by <code>isExtensionHasToBeRemoved()</code></td>
+</tr>
+<tr>
+<td><code>isAllUncheckedExceededAttempts()</code></td>
+<td>Checks if all unchecked items have exceeded max retry attempts</td>
+<td>Called by <code>isExtensionHasToBeRemoved()</code></td>
+</tr>
+<tr>
+<td><code>onAdPersonalizationModuleEvent()</code></td>
+<td>Handles events from ad-personalization module</td>
+<td>Module emits event</td>
+</tr>
+<tr>
+<td><code>handleSuccessfulRegistration()</code></td>
+<td>Handles post-registration tasks (survey timing, extension tracking, user mapping)</td>
+<td>After successful Prolific ID registration</td>
+</tr>
+<tr>
+<td><code>trackInstalledExtensions()</code></td>
+<td>Tracks installed browser extensions</td>
+<td>After successful registration</td>
+</tr>
+<tr>
+<td><code>trackProlificUserMapping()</code></td>
+<td>Tracks Prolific ID to user ID mapping</td>
+<td>After successful registration</td>
+</tr>
+<tr>
+<td><code>setUninstallUrl()</code></td>
+<td>Sets Chrome uninstall URL with user ID</td>
+<td>After successful registration</td>
+</tr>
+<tr>
+<td><code>trackUrlIfNeeded()</code></td>
+<td>Tracks URL if not excluded, marks excluded domains as visited</td>
+<td>During URL tracking</td>
+</tr>
+<tr>
+<td><code>showRemoveExtensionNotification()</code></td>
+<td>Shows notification prompting user to uninstall extension</td>
+<td>When <code>isExtensionHasToBeRemoved()</code> returns true</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Service Dependencies:</strong> The Worker class depends on multiple services (injected via constructor):</p>
+<ul>
+<li><code>FirebaseAppService</code>: Authentication and Firebase operations</li>
+<li><code>ConfigService</code>: Remote config fetching</li>
+<li><code>EventService</code>: Event tracking to Jitsu</li>
+<li><code>NotificationService</code>: In-page notification display</li>
+<li><code>SurveyService</code>: Survey loading and completion tracking</li>
+<li><code>DomainService</code>: Domain exclusion logic</li>
+<li><code>ScreenshotService</code>: Screenshot capture and analysis</li>
+<li><code>RateService</code>: Ad-rating throttling, daily limits, and event tracking</li>
+</ul>
+
+<h3 id="worker-services">Worker Services</h3>
+
+<h4 id="eventservice">EventService</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/EventService.ts</code><br />
+<strong>Purpose</strong>: Tracks events and sends them to Jitsu analytics</p>
+
+<p><strong>Key Method</strong> - <code>track()</code>:</p>
+
+<pre><code class="language-typescript">async track(event: string, properties: any): Promise&lt;void&gt; {
+  const user = await this.firebaseAppService.getUser();
+  if (await this.isNeedToStopDataCollection(user.uid)) return;
+
+  if (!user) {
+    console.error('There is no user identifier. Please register.');
+    return;
+  }
+
+  if (!user.active) {
+    console.error('User is not active.');
+    return;
+  }
+
+  this.client.identify(user.uid, { $doNotSend: true });
+
+  try {
+    await this.client.track({
+      event,
+      ...properties,
+    });
+  } catch (err) {
+    console.error('Failed to send event:', err);
+  }
+}
+</code></pre>
+
+<p><strong>Features:</strong></p>
+<ul>
+<li>Stops tracking when Remote Config disables collection globally or for specific users (<code>stopDataCollection</code>, <code>stopDataCollectionForSpecifiedUsers</code>)</li>
+<li>Validates user exists and is active before tracking</li>
+<li>Uses Jitsu client to send events and identifies user by UID</li>
+<li>Events automatically forwarded to BigQuery via Jitsu configuration</li>
+</ul>
+
+<h4 id="firebaseappservice">FirebaseAppService</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/FirebaseAppService.ts</code><br />
+<strong>Purpose</strong>: Manages Firebase authentication, Firestore operations, and storage</p>
+
+<p><strong>Key Methods:</strong></p>
+<ul>
+<li><code>login(prolificId?)</code>: Authenticates user anonymously, then calls Firebase Function to create/retrieve user</li>
+<li><code>getUser()</code>: Gets user from cache or Firestore (with 1-hour cache interval)</li>
+<li><code>uploadScreenshotToFirebase()</code>: Uploads screenshot blob to Firebase Storage</li>
+</li>
+</ul>
+
+<p><strong>User Data Structure:</strong></p>
+<pre><code class="language-typescript">type User = {
+  sessionUid: string;    // Firebase auth UID
+  prolificId: string;     // Prolific participant ID
+  uid: string;            // Unique user identifier (UUID)
+  active: boolean;        // Whether user is active in study
+}
+</code></pre>
+
+<h4 id="configservice">ConfigService</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/ConfigService.ts</code><br />
+<strong>Purpose</strong>: Fetches and caches Firebase Remote Config values</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Fetches config from Firebase Remote Config</li>
+<li>Caches config to avoid excessive API calls</li>
+<li>Converts Firebase config values to primitives (strings, booleans, numbers)</li>
+<li>Merges Firebase config with Firebase options</li>
+</ul>
+
+<p><strong>Config Keys:</strong></p>
+<ul>
+<li><code>surveys</code>: JSON array of survey configurations</li>
+<li><code>excludedUrlTrackingDomains</code>: JSON array for URL tracking exclusions</li>
+<li><code>excludedScreenshotsDomains</code>: JSON array for screenshot exclusions</li>
+<li><code>stopDataCollection</code>: Boolean flag to stop all data collection</li>
+<li><code>stopDataCollectionForSpecifiedUsers</code>: JSON array of user IDs to stop collection for</li>
+</ul>
+
+<h4 id="surveyservice">SurveyService</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/SurveyService.ts</code><br />
+<strong>Purpose</strong>: Manages survey loading, completion tracking, and timing</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Survey Loading</strong>: Loads surveys from Remote Config based on timing (1-week intervals)</li>
+<li><strong>Completion Detection</strong>: Detects survey completion via URL tracking</li>
+<li><strong>Cookie Recording</strong>: Triggers cookie recording after survey completion</li>
+<li><strong>Timing Management</strong>: Manages week timing and ad blocker delay (2 weeks)
+   <ul>
+   <li><code>startWeekTiming(isAdBlockSituation?)</code>: Sets <code>weekEndTime</code> in storage
+     <ul>
+     <li>If <code>isAdBlockSituation</code> is <code>true</code>: Uses <code>DELAY_WHILE_AD_BLOCKER_OR_TO_SECOND_SURVEY</code> (2 weeks)</li>
+     <li>If <code>isAdBlockSituation</code> is <code>false</code> or undefined: Uses <code>DELAY_BETWEEN_SURVEY</code> (1 week)</li>
+     </ul>
+   </li>
+   <li>Called with <code>isAdBlockSituation=true</code> when:
+     <ul>
+     <li>Ad blocker parameter detected in survey URL (<code>WEBMUNK_URL?ab</code>)</li>
+     <li>After survey completion (to delay next survey)</li>
+     </ul>
+   </li>
+   </ul>
+</li>
+<li><strong>Notification Display</strong>: Shows "fill out survey" notification with 1-hour cooldown</li>
+</ul>
+
+<p><strong>Survey Flow:</strong></p>
+<ol>
+<li><strong>Initialization</strong>: <code>initSurveysIfExists()</code> loads existing surveys and completed surveys from storage on extension startup</li>
+<li><strong>Survey Loading</strong>: <code>initSurveysIfNeeded()</code> is called during URL tracking:
+   <ul>
+   <li>Checks if survey loading is disabled (ad blocker situation)</li>
+   <li>If surveys exist, shows fill-out notification (with 5-minute cooldown)</li>
+   <li>If no surveys, checks if week has passed since last survey</li>
+   <li>If week passed, loads next survey from Remote Config</li>
+   </ul>
+</li>
+<li><strong>Survey URL Construction</strong>: <code>loadSurveys()</code> creates survey URL:
+   <ul>
+   <li>Gets next survey index from <code>lastSurveyIndex</code></li>
+   <li>Appends <code>?PROLIFIC_PID={prolificId}</code> to survey URL</li>
+   <li>Appends ad personalization config parameters (if any) as query string</li>
+   <li>Stores survey in <code>surveys</code> array and updates <code>lastSurveyIndex</code></li>
+   </ul>
+</li>
+<li><strong>Popup Display</strong>: Popup reads <code>surveys</code> from storage and displays list</li>
+<li><strong>Survey Start Detection</strong>: <code>isThisSurveyUrl()</code> is called during URL tracking:
+   <ul>
+   <li>Checks if current URL matches any survey URL</li>
+   <li>If match, triggers cookie recording (if completed surveys exist) and tracks <code>survey_started</code> event</li>
+   </ul>
+</li>
+<li><strong>Survey Completion Detection</strong>: <code>surveyCompleteListener()</code> listens to tab updates:
+   <ul>
+   <li>Checks if tab URL starts with <code>WEBMUNK_URL</code> origin</li>
+   <li>If URL starts with <code>WEBMUNK_URL?ab</code> (ad blocker), handles ad blocker manipulation</li>
+   <li>Otherwise, checks if opener tab URL matches a survey URL</li>
+   <li>If match, extracts query parameters, saves personalization configs, removes opener tab</li>
+   <li>Marks survey as completed, removes from active list, triggers cookie recording</li>
+   <li>Calls <code>configurationManipulation()</code> which calls <code>clearCheckedAdPersonalizationIfExists()</code>:
+     <ul>
+     <li>If survey URL contains ad personalization parameters (fad, gyta, aap), clears <code>adPersonalization.checkedItems</code></li>
+     <li>Also sets <code>personalizationTime</code> to 0 to reset the 2-day cooldown</li>
+     <li>This allows re-checking personalization settings after survey completion</li>
+     </ul>
+   </li>
+   <li>Starts week timing and tracks <code>survey_completed</code> event</li>
+   </ul>
+</li>
+</ol>
+
+<h4 id="screenshotservice">ScreenshotService</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/ScreenshotService.ts</code><br />
+<strong>Purpose</strong>: Captures screenshots of pages for analysis</p>
+
+<p><strong>Key Method</strong> - <code>makeScreenshotIfNeeded()</code>:</p>
+<ol>
+<li><strong>Domain Exclusion Check</strong>: Checks if domain is excluded via <code>domainService.isNeedToExcludeSpecifiedDomain(url, ExcludedDomains.screenshots)</code></li>
+<li><strong>Notification Check</strong>: Checks if notification is visible on page (prevents screenshot when rating popup is shown)</li>
+<li><strong>Data Collection Guard</strong>: Calls <code>isNeedToStopDataCollection()</code> which stops screenshots when:
+   <ul>
+   <li>Remote Config <code>stopDataCollection</code> is true</li>
+   <li>User is in <code>stopDataCollectionForSpecifiedUsers</code> list</li>
+   <li>User has completed 2 surveys</li>
+   </ul>
+</li>
+<li><strong>Throttle Check</strong>: Ensures 1 minute (60000ms) passed since last screenshot via <code>isOneMinutePassed()</code> (updates <code>lastScreenshot</code> when passing)</li>
+<li><strong>Capture</strong>: <code>chrome.tabs.captureVisibleTab()</code> captures screenshot as data URL (JPEG, 50% quality)</li>
+<li><strong>Blob Conversion</strong>: Converts data URL to Blob using <code>dataURLToBlob()</code> method</li>
+<li><strong>Firebase Upload</strong>: Uploads blob to Firebase Storage via <code>firebaseAppService.uploadScreenshotToFirebase()</code></li>
+<li><strong>Analysis</strong>: Sends screenshot URL to Firebase Cloud Function <code>analyzeScreenshot</code> via POST request</li>
+<li><strong>Event Tracking</strong>: Tracks <code>screen_analysis</code> event with <code>timestamp</code>, <code>pageUrl</code>, and API <code>response</code></li>
+<li><strong>Ad Rating Trigger</strong>: If <code>response.result !== '0'</code>, calls <code>rateService.send(tabId, timestamp)</code> to show rating popup</li>
+</ol>
+
+<p><strong>Triggered By:</strong></p>
+<ul>
+<li>Page scroll/click events (via content script sending <code>page_action</code> message)</li>
+<li>URL tracking (when tab URL changes and status is 'complete')</li>
+</ul>
+
+<p><strong>Note:</strong> Ad rating is not a separate screenshot trigger. Instead, after a screenshot is analyzed and ads are detected (<code>response.result !== '0'</code>), the <code>rateService.send()</code> method is called to show the rating popup.</p>
+
+<h4 id="domainservice">DomainService</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/DomainService.ts</code><br />
+<strong>Purpose</strong>: Manages domain exclusion logic</p>
+
+<p><strong>Key Methods:</strong></p>
+<ul>
+<li><code>isNeedToExcludeSpecifiedDomain(url: URL, config: keyof FirebaseConfig)</code>: Checks if domain should be excluded
+   <ul>
+   <li><code>config</code> parameter specifies which exclusion list to check: <code>ExcludedDomains.url_tracking</code> or <code>ExcludedDomains.screenshots</code></li>
+   <li>Checks if hostname matches domain, ends with <code>.domain</code>, or href starts with domain</li>
+   <li>Returns <code>true</code> if domain should be excluded</li>
+   </ul>
+</li>
+<li><code>initExcludedDomains(config: keyof FirebaseConfig)</code>: Initializes excluded domains from Remote Config
+   <ul>
+   <li>Fetches domains from Remote Config using <code>config</code> key</li>
+   <li>If <code>config === ExcludedDomains.url_tracking</code>, also starts daily timing for visit reporting</li>
+   <li>Updates storage only if domains changed</li>
+   </ul>
+</li>
+<li><code>markExcludedDomainAsVisited(domain: string)</code>: Increments visit count for excluded domain</li>
+<li><code>trackExcludedDomains()</code>: Reports excluded domain visits daily (after 1-day interval)</li>
+</ul>
+
+<p><strong>Usage Examples:</strong></p>
+<pre><code class="language-typescript">// Check if domain should be excluded from URL tracking
+const isExcluded = await domainService.isNeedToExcludeSpecifiedDomain(url, ExcludedDomains.url_tracking);
+
+// Check if domain should be excluded from screenshots
+const isExcluded = await domainService.isNeedToExcludeSpecifiedDomain(url, ExcludedDomains.screenshots);
+</code></pre>
+
+<h4 id="notificationservice-worker">NotificationService (Worker)</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/NotificationService.ts</code><br />
+<strong>Purpose</strong>: Displays in-page notifications to users</p>
+
+<p><strong>Key Method</strong> - <code>showNotification()</code>:</p>
+<ul>
+<li>Sends message to content script to display notification</li>
+<li>Handles notification removal request</li>
+<li>Manages extension uninstall flow</li>
+</ul>
+
+<h4 id="firebaseremoteconfig">FirebaseRemoteConfig</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/FirebaseRemoteConfig.ts</code><br />
+<strong>Purpose</strong>: Type definitions and utilities for Firebase Remote Config</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Type Definition</strong>: <code>FirebaseConfig</code> keys: <code>surveys</code>, <code>excludedUrlTrackingDomains</code>, <code>excludedScreenshotsDomains</code>, <code>stopDataCollectionForSpecifiedUsers</code>, <code>stopDataCollection</code></li>
+<li><strong>Value Conversion</strong>: <code>convertConfigValuesToPrimitives()</code> converts Remote Config values to primitives before caching in ConfigService</li>
+<li><strong>Integration</strong>: Used by <code>ConfigService</code> to hydrate domain exclusion lists and data-collection stop lists</li>
+</ul>
+
+<p><strong>Usage:</strong> Imported by <code>ConfigService.ts</code> to normalize Remote Config values before storing in local config.</p>
+
+<h3 id="content-script">Content Script</h3>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/content/Content.ts</code><br />
+<strong>Purpose</strong>: Tracks page interactions and communicates with background worker</p>
+
+<p><strong>Initialization</strong> (<code>initialize()</code> method):</p>
+
+<pre><code class="language-typescript">public initialize(): void {
+  this.addScrollListener();
+  this.addClickListener();
+}
+</code></pre>
+
+<p><strong>Features:</strong></p>
+<ul>
+<li><strong>Scroll Tracking</strong>: Throttled scroll events (1 second) sent to worker for screenshot triggers</li>
+<li><strong>Click Tracking</strong>: Click events sent to worker for screenshot triggers</li>
+<li><strong>Module Integration</strong>: Imports module content scripts (extension-ads, ad-personalization)</li>
+</ul>
+
+<p><strong>Content Script Isolation:</strong> Content scripts run in isolated worlds and cannot directly access page JavaScript. They communicate via <code>chrome.runtime.sendMessage()</code>.</p>
+
+<h4 id="notificationservice-content">NotificationService (Content)</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/content/NotificationService.ts</code><br />
+<strong>Purpose</strong>: Displays in-page notifications injected into web pages</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Notification Injection</strong>: Dynamically creates and injects notification HTML/CSS into page</li>
+<li><strong>Message Handling</strong>: Listens for notification requests from worker</li>
+<li><strong>Ad Personalization Relay</strong>: Relays ad personalization check requests to worker</li>
+<li><strong>Cookie Module Relay</strong>: Relays cookie recording requests to worker</li>
+<li><strong>Notification Detection</strong>: Checks if Webmunk notifications exist on page (for screenshot service)</li>
+</ul>
+
+<p><strong>Notification Types:</strong></p>
+<ul>
+<li><strong>Survey Notification</strong>: "It's time to complete a survey..."</li>
+<li><strong>Remove Extension Notification</strong>: "Please uninstall the Ad Study extension!"</li>
+</ul>
+
+<h3 id="popup">Popup</h3>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/popup/Popup.ts</code><br />
+<strong>Purpose</strong>: User interface for registration and survey management</p>
+
+<h4 id="popup-notification">Notification (Popup)</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/popup/Notification.ts</code><br />
+<strong>Purpose</strong>: Manages notifications displayed within the extension popup UI</p>
+
+<p><strong>Key Methods:</strong></p>
+<ul>
+<li><code>error(message, duration?)</code>: Displays error notification (red background, #f44336, default duration: 3000ms)</li>
+<li><code>warning(message, duration?)</code>: Displays warning notification (orange background, #ff9800, default duration: 3000ms)</li>
+<li><code>info(message, duration?)</code>: Displays info notification (blue background, #2196F3, default duration: 3000ms)</li>
+</ul>
+
+<p><strong>Implementation Details:</strong></p>
+<ul>
+<li>Uses DOM elements with IDs <code>notification</code> and <code>notification-message</code> from <code>popup.html</code></li>
+<li>Private <code>show()</code> method handles display logic (sets message text, background color, displays element, auto-hides after duration)</li>
+<li>Notifications are displayed as block elements and hidden by setting <code>display: none</code></li>
+<li>Called by Popup class to show validation errors (warning) and success messages (info)</li>
+</ul>
+
+<h4 id="popup-html">Popup HTML</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/popup/popup.html</code><br />
+<strong>Purpose</strong>: HTML structure for the extension popup UI</p>
+
+<p><strong>Key Elements:</strong></p>
+<ul>
+<li><code>#getStartedContainer</code>: Initial registration screen
+  <ul>
+  <li>Contains Prolific ID input field (<code>#logInInput</code>)</li>
+  <li>Continue button (<code>#continueButton</code>)</li>
+  </ul>
+</li>
+<li><code>#studyExtensionContainer</code>: Post-registration screen
+  <ul>
+  <li>Displays formatted user identifier (<code>#formattedIdentifier</code>)</li>
+  <li>Copy button (<code>#copyButton</code>) to copy identifier</li>
+  <li>Tasks status message (<code>#tasks-status</code>)</li>
+  <li>Task list (<code>#task-list</code>) showing available surveys</li>
+  </ul>
+</li>
+<li><code>#notification</code>: Notification container (hidden by default)
+  <ul>
+  <li>Contains <code>#notification-message</code> for notification text</li>
+  <li>Used by Notification class to display error/warning/info messages</li>
+  </ul>
+</li>
+</ul>
+
+<p><strong>Script Import:</strong> Loads <code>popup.js</code> (compiled from <code>Popup.ts</code>) as ES module.</p>
+
+<h4 id="popup-styling">Popup Styling</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/popup/popup.css</code><br />
+<strong>Purpose</strong>: Stylesheet for the extension popup UI</p>
+
+<p><strong>Key Styles:</strong></p>
+<ul>
+<li><strong>Wrapper</strong>: 450px width, min-height 320px, black border (1px solid)</li>
+<li><strong>Navbar</strong>: Red background (#a41b33), 60px height, flexbox layout, white title text (22px font-size)</li>
+<li><strong>Container</strong>: 20px margin, flexbox column layout, 15px gap, 16px font-size</li>
+<li><strong>LogInInput</strong>: 15px padding, gray border (1px solid), 4px border-radius, gray text color</li>
+<li><strong>ContinueButton</strong>: Red background (#a41b33), white text, uppercase, 16px font-size, 4px border-radius, hover effects (background-color: #8b1529)</li>
+<li><strong>Notification</strong>: Absolute positioning (bottom: 20px, right: 20px), slide-up animation, 300px width, white background, box shadow</li>
+<li><strong>TaskList</strong>: List styling with 1.5 line-height, cursor pointer on list items</li>
+<li><strong>CopyButton</strong>: Transparent background, blue text (#2196F3), underline on hover</li>
+</ul>
+
+<p><strong>Font:</strong> Uses Roboto font family (sans-serif fallback) for all elements</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>User Registration</strong>: Prolific ID input and validation (24 alphanumeric characters)</li>
+<li><strong>Login Flow</strong>: Sends login request to worker, receives user data</li>
+<li><strong>Survey Display</strong>: Shows list of available surveys from storage</li>
+<li><strong>Identifier Display</strong>: Shows formatted user identifier (first 10 + last 10 characters)</li>
+<li><strong>Copy Functionality</strong>: Copies full identifier to clipboard</li>
+</ul>
+
+<p><strong>UI States:</strong></p>
+<ol>
+<li><strong>Get Started</strong>: Initial state with Prolific ID input</li>
+<li><strong>Study Extension</strong>: Post-registration state with identifier and survey list</li>
+</ol>
+
+<p><strong>Message Flow:</strong></p>
+<pre><code>Popup → chrome.runtime.sendMessage({ action: 'webmunkExt.popup.loginReq', prolificId })
+Worker → FirebaseAppService.login(prolificId)
+Worker → chrome.runtime.sendMessage({ action: 'webmunkExt.popup.loginRes', data/error })
+Popup → Receives response, updates UI
+</code></pre>
+
+<h3 id="configuration">Configuration</h3>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/config.js</code><br />
+<strong>Purpose</strong>: Centralized configuration from environment variables</p>
+
+<h4 id="options-page">Options Page</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/options/options.js</code><br />
+<strong>Purpose</strong>: Options page script (currently imports extension-ads options)</p>
+
+<p><strong>Current Implementation:</strong></p>
+<pre><code class="language-javascript">// this is where you could import your webmunk module options scripts
+import "@webmunk/extension-ads/options";
+</code></pre>
+
+<p><strong>Note:</strong> The options page is a placeholder for future extension settings. Currently, it only imports the extension-ads module's options functionality. The options page is bundled as a separate entry point in webpack but is not currently used in the extension's manifest.</p>
+
+<h4 id="survey-completed-page">Survey Completed Page</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/pages/survey-completed.html</code><br />
+<strong>Purpose</strong>: Success page displayed after survey completion</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+<li>Simple HTML page with success message</li>
+<li>Displays "The form has been successfully completed" message (40px font-size, 400 font-weight)</li>
+<li>Includes success icon (success.svg, 100px × 100px) from <code>../../images/success.svg</code></li>
+<li>Centered layout (flexbox, 100vh height) with Roboto font</li>
+<li>Uses favicon from <code>../../images/header-icon-96.png</code></li>
+</ul>
+
+<p><strong>Usage:</strong> This page is opened in a new tab when a survey is completed. The SurveyService's <code>surveyCompleteListener()</code> detects when this page loads (checks if URL starts with <code>WEBMUNK_URL</code> and opener tab URL matches a survey URL) and processes the survey completion.</p>
+
+<h4 id="xhr-shim">XHR Shim</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/xhr-shim.d.ts</code><br />
+<strong>Purpose</strong>: TypeScript declaration file for xhr-shim module</p>
+
+<p><strong>Content:</strong></p>
+<pre><code class="language-typescript">declare module 'xhr-shim';
+</code></pre>
+
+<p><strong>Usage:</strong> This file provides TypeScript type definitions for the <code>xhr-shim</code> package, which is used to provide XMLHttpRequest functionality in the service worker context (where it's not natively available). The shim is imported in <code>Worker.ts</code> and assigned to the global scope.</p>
+
+<h4 id="enums">Enums</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/enums.ts</code><br />
+<strong>Purpose</strong>: Defines TypeScript enums used throughout the extension</p>
+
+<p><strong>Enum Definitions:</strong></p>
+<ul>
+<li><code>NotificationText</code>: Text constants for notifications
+  <ul>
+  <li><code>FILL_OUT</code>: "It`s time to complete a survey. Please click on your extension to continue."</li>
+  <li><code>REMOVE</code>: "Please uninstall <a class="open-extensions-link" href="#">the Ad Study extension</a>!"</li>
+  </ul>
+</li>
+<li><code>UrlParameters</code>: URL query parameter keys for survey configuration
+  <ul>
+  <li><code>ONLY_INFORMATION</code>: 'oi' - Information-only mode</li>
+  <li><code>AD_BLOCKER</code>: 'ab' - Ad blocker parameter</li>
+  <li><code>FACEBOOK</code>: 'fad' - Facebook ad preferences</li>
+  <li><code>GOOGLE_AND_YOUTUBE</code>: 'gyta' - Google & YouTube ad settings</li>
+  <li><code>AMAZON</code>: 'aap' - Amazon ad preferences</li>
+  </ul>
+</li>
+<li><code>Event</code>: Event names for analytics tracking
+  <ul>
+  <li><code>URL_TRACKING</code>: 'url_tracking'</li>
+  <li><code>EXCLUDED_DOMAINS_VISIT</code>: 'excluded_domains_visit'</li>
+  <li><code>INSTALLED_EXTENSIONS</code>: 'installed_extensions'</li>
+  <li><code>USER_MAPPING</code>: 'user_mapping'</li>
+  <li><code>SCREEN_ANALYSIS</code>: 'screen_analysis'</li>
+  <li><code>ADS_RATED</code>: 'ads_rated'</li>
+  </ul>
+</li>
+<li><code>ExcludedDomains</code>: Storage keys for excluded domain configurations
+  <ul>
+  <li><code>url_tracking</code>: 'excludedUrlTrackingDomains'</li>
+  <li><code>screenshots</code>: 'excludedScreenshotsDomains'</li>
+  </ul>
+</li>
+<li><code>RateType</code>: Ad rating question types
+  <ul>
+  <li><code>relevance</code>: 'relevance' - Relevance rating</li>
+  <li><code>distraction</code>: 'distraction' - Distraction rating</li>
+  </ul>
+</li>
+</ul>
+
+<h4 id="types">Types</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/types.ts</code><br />
+<strong>Purpose</strong>: Defines TypeScript type definitions used throughout the extension</p>
+
+<p><strong>Type Definitions:</strong></p>
+<ul>
+<li><code>AdPersonalizationItem</code>: Ad personalization configuration item
+  <ul>
+  <li><code>key</code>: string - Personalization key (e.g., 'fad', 'gyta', 'aap')</li>
+  <li><code>name</code>: string - Display name</li>
+  <li><code>url</code>: string - URL to check personalization settings</li>
+  </ul>
+</li>
+<li><code>PersonalizationConfigItem</code>: Personalization configuration from survey
+  <ul>
+  <li><code>key</code>: string - Parameter key</li>
+  <li><code>value</code>: boolean - Configuration value</li>
+  </ul>
+</li>
+<li><code>SurveyItem</code>: Survey configuration
+  <ul>
+  <li><code>name</code>: string - Survey name</li>
+  <li><code>url</code>: string - Survey URL</li>
+  </ul>
+</li>
+<li><code>User</code>: Firebase user data
+  <ul>
+  <li><code>sessionUid</code>: string - Session identifier</li>
+  <li><code>prolificId</code>: string - Prolific participant ID</li>
+  <li><code>uid</code>: string - Firebase user ID</li>
+  <li><code>active</code>: boolean - User active status</li>
+  </ul>
+</li>
+<li><code>Extension</code>: Installed extension information
+  <ul>
+  <li><code>name</code>?: string - Extension name</li>
+  <li><code>homepageUrl</code>?: string - Extension homepage</li>
+  <li><code>enabled</code>?: boolean - Extension enabled status</li>
+  </ul>
+</li>
+<li><code>ScreenshotResponse</code>: Screenshot analysis response
+  <ul>
+  <li><code>result</code>: string - Analysis result string</li>
+  </ul>
+</li>
+<li><code>AdPersonalizationAttempts</code>: Ad personalization retry tracking
+  <ul>
+  <li><code>attempts</code>: number - Number of retry attempts</li>
+  </ul>
+</li>
+</ul>
+
+<h4 id="worker-utils">Worker Utils</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/utils.ts</code><br />
+<strong>Purpose</strong>: Utility functions for the background worker</p>
+
+<p><strong>Key Functions:</strong></p>
+<ul>
+<li><code>isNeedToDisableSurveyLoading()</code>: Checks if survey loading should be disabled
+  <ul>
+  <li>Returns <code>true</code> if ad blocker parameter (<code>ab</code>) is set in <code>personalizationConfigs</code></li>
+  <li>Used by SurveyService to prevent loading surveys when ad blocker is detected</li>
+  </ul>
+</li>
+<li><code>getActiveTabId(isNeedToCheckUrl?)</code>: Gets the active tab ID
+  <ul>
+  <li>Returns <code>0</code> if no active tab or tab is a Chrome internal page</li>
+  <li>If <code>isNeedToCheckUrl</code> is true, also excludes specific ad personalization URLs (Facebook, Google, Amazon settings pages)</li>
+  <li>Used throughout the extension to get the current active tab</li>
+  </ul>
+</li>
+<li><code>getInstalledExtensions()</code>: Gets list of installed browser extensions
+  <ul>
+  <li>Returns array of <code>Extension</code> objects with name, enabled status, and homepage URL</li>
+  <li>Used during registration to track installed extensions</li>
+  </ul>
+</li>
+<li><code>getTabInfo()</code>: Gets information about the active tab
+  <ul>
+  <li>Returns <code>chrome.tabs.Tab</code> object for the active tab in current window</li>
+  <li>Used by ScreenshotService and other services to get tab information</li>
+  </ul>
+</li>
+</ul>
+
+<p><strong>Configuration Values:</strong></p>
+
+<pre><code class="language-javascript">export const WEBMUNK_URL = process.env?.WEBMUNK_URL;
+export const UNINSTALL_URL = process.env?.UNINSTALL_URL;
+export const JITSU_WRITE_KEY = process.env?.JITSU_WRITE_KEY;
+export const JITSU_INGEST_URL = process.env?.JITSU_INGEST_URL;
+export const FIREBASE_CONFIG = { /* Firebase config from env */ };
+export const DELAY_BETWEEN_SURVEY = process.env?.DELAY_BETWEEN_SURVEY; // 1 week
+export const DELAY_WHILE_AD_BLOCKER_OR_TO_SECOND_SURVEY = process.env?.DELAY_WHILE_AD_BLOCKER_OR_TO_SECOND_SURVEY; // 2 weeks (ad blocker or until 2nd survey)
+export const DELAY_BETWEEN_AD_PERSONALIZATION = process.env?.DELAY_BETWEEN_AD_PERSONALIZATION; // 2 days
+export const AD_PERSONALIZATION_RETRY_INTERVAL = process.env?.AD_PERSONALIZATION_RETRY_INTERVAL; // 5 minutes between limited retries
+export const MAX_AD_PERSONALIZATION_RETRY_ATTEMPTS = process.env?.MAX_AD_PERSONALIZATION_RETRY_ATTEMPTS; // 3 attempts max
+export const DELAY_BETWEEN_REMOVE_NOTIFICATION = process.env?.DELAY_BETWEEN_REMOVE_NOTIFICATION; // 1 day
+export const DELAY_BETWEEN_FILL_OUT_NOTIFICATION = process.env?.DELAY_BETWEEN_FILL_OUT_NOTIFICATION; // 5 minutes
+export const DELAY_BETWEEN_AD_RATING_POPUP = process.env?.DELAY_BETWEEN_AD_RATING_POPUP; // 10 minutes
+export const DELAY_BETWEEN_EXCLUDED_VISITED_DOMAINS = process.env?.DELAY_BETWEEN_EXCLUDED_VISITED_DOMAINS; // 1 day
+export const REMOTE_CONFIG_FETCH_INTERVAL = process.env?.REMOTE_CONFIG_FETCH_INTERVAL; // 1 hour
+export const USER_FETCH_INTERVAL = process.env?.USER_FETCH_INTERVAL; // 1 hour
+</code></pre>
+
+<p><strong>Environment Files:</strong></p>
+<ul>
+<li><code>.env.development</code>: Development environment variables</li>
+<li><code>.env.production</code>: Production environment variables</li>
+</ul>
+
+<p><strong>Required Environment Variables:</strong></p>
+<ul>
+<li>Firebase: <code>FIREBASE_API_KEY</code>, <code>FIREBASE_PROJECT_ID</code>, <code>FIREBASE_MESSAGING_SENDER_ID</code>, <code>FIREBASE_APP_ID</code></li>
+<li>Jitsu: <code>JITSU_WRITE_KEY</code>, <code>JITSU_INGEST_URL</code></li>
+<li>URLs: <code>WEBMUNK_URL</code>, <code>UNINSTALL_URL</code>, <code>FIREBASE_BUCKET_URL</code></li>
+</ul>
+
+<hr />
+
+<h2 id="module-system">Module System</h2>
+
+<h3 id="messenger-system">Messenger System</h3>
+
+<p><strong>Location</strong>: <code>packages/utils/src/messenger.js</code><br />
+<strong>Purpose</strong>: Central message routing system for module communication</p>
+
+<h4 id="session-manager">Session Manager</h4>
+
+<p><strong>Location</strong>: <code>packages/utils/src/sessionMgr.js</code><br />
+<strong>Purpose</strong>: Tracks and manages sessions for Chrome tabs</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Session Tracking</strong>: Creates unique session IDs (UUID) for each tab</li>
+<li><strong>URL Change Detection</strong>: Automatically creates new session when tab URL changes</li>
+<li><strong>Garbage Collection</strong>: Periodically removes sessions for closed tabs (1-minute interval)</li>
+<li><strong>Storage Persistence</strong>: Stores sessions in <code>chrome.storage.local</code> under <code>sessions</code> key</li>
+</ul>
+
+<p><strong>Key Methods:</strong></p>
+<ul>
+<li><code>saveSession(tab)</code>: Creates new session ID for tab and stores in Map and storage</li>
+<li><code>getSessionId(tabId)</code>: Retrieves session ID for a tab</li>
+<li><code>getSession(tabId)</code>: Retrieves full session object (sessionId, url) for a tab</li>
+<li><code>deleteSession(tabId)</code>: Removes session when tab is closed</li>
+<li><code>garbageCollect()</code>: Removes sessions for tabs that no longer exist</li>
+</ul>
+
+<p><strong>Initialization:</strong> Automatically initializes on import, loads existing sessions from storage, and sets up event listeners for tab updates and alarms.</p>
+
+<h4 id="utils-index">Utils Index</h4>
+
+<p><strong>Location</strong>: <code>packages/utils/src/index.js</code><br />
+<strong>Purpose</strong>: Main export file for utils package</p>
+
+<p><strong>Exports:</strong></p>
+<pre><code class="language-javascript">export * from './messenger';
+export * from './sessionMgr';
+</code></pre>
+
+<p><strong>Usage:</strong> Imported by extension code as <code>@webmunk/utils</code> to access messenger and sessionMgr utilities.</p>
+
+<p><strong>Key Concepts:</strong></p>
+<ul>
+<li><strong>Action-Based Routing</strong>: Messages use <code>receiver.method</code> format (e.g., <code>webmunkExt.popup.loginReq</code>)</li>
+<li><strong>Module Registration</strong>: Modules register to get event emitters</li>
+<li><strong>Event Emission</strong>: Modules emit events that listeners can subscribe to</li>
+<li><strong>Frame Communication</strong>: Supports communication with iframes and different frame contexts</li>
+</ul>
+
+<p><strong>Module Registration Pattern:</strong></p>
+
+<pre><code class="language-javascript">// In module worker/content script
+this.eventEmitter = messenger.registerModule('module-name');
+
+// Emit events
+this.eventEmitter.emit('event_name', data);
+
+// In main worker
+messenger.addModuleListener('module-name', (event, data) => {
+  // Handle event
+});
+</code></pre>
+
+<p><strong>Message Routing Pattern:</strong></p>
+
+<pre><code class="language-javascript">// Send message
+chrome.runtime.sendMessage({
+  action: 'receiver.method',  // e.g., 'webmunkExt.popup.loginReq'
+  data: { /* payload */ }
+});
+
+// Receiver handles message
+messenger.addReceiver('receiver', {
+  _onMessage_method: (data, from, reply) => {
+    // Process message
+    reply({ ok: true, data: result });
+  }
+});
+</code></pre>
+
+<p><strong>Key Methods:</strong></p>
+<ul>
+<li><code>registerModule(name)</code>: Registers a module and returns event emitter</li>
+<li><code>addModuleListener(moduleName, listener)</code>: Adds listener for module events</li>
+<li><code>addReceiver(receiverName, receiver)</code>: Registers message receiver</li>
+<li><code>sendToMainPage(tabId, name, action, data, frameId)</code>: Sends message to content script</li>
+<li><code>sendToFrame(tabId, name, action, data)</code>: Sends message to specific iframe</li>
+</ul>
+
+<h3 id="extension-ads-module">Extension Ads Module</h3>
+
+<p><strong>Location</strong>: <code>packages/modules/extension-ads/</code><br />
+<strong>Purpose</strong>: Detect and track advertisements on web pages</p>
+
+<p><strong>Module Description:</strong> The extension-ads module is designed for tracking and handling advertisements across various websites in your web extension. It provides tools for detecting, processing, and managing ads within the extension environment.</p>
+
+<p><strong>Build Instructions:</strong> To build the module, use:</p>
+<pre><code class="language-bash">npm run build:dev
+</code></pre>
+
+<p><strong>Module Configuration</strong> (<code>module.json</code>):</p>
+<pre><code class="language-json">{
+  "name": "Ad Scraper",
+  "permissions": [
+    {"name": "webRequest", "justification": "to be reviewed"},
+    {"name": "storage", "justification": "store all filter dictionaries"},
+    {"name": "unlimitedStorage", "justification": "filters size goes beyond 5M"},
+    {"name": "webNavigation", "justification": "required for iframes management"},
+    {"name": "alarms", "justification": "session management and cleaning"},
+    {"name": "privacy", "justification": "used by ublock to customize network and services settings"},
+    {"name": "activeTab", "justification": "gives an extension temporary access to the currently active tab"}
+  ]
+}
+</code></pre>
+
+<h4 id="extensionadsworker">ExtensionAdsWorker</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/extension-ads/src/worker/ExtensionAdsWorker.ts</code><br />
+<strong>Purpose</strong>: Background worker for ad detection and tracking</p>
+
+<h4 id="extension-ads-index-files">Extension Ads Index Files</h4>
+
+<p><strong>Worker Index</strong>: <code>packages/modules/extension-ads/src/worker/index.ts</code></p>
+<pre><code class="language-typescript">import { ExtensionAdsWorker } from './ExtensionAdsWorker';
+const worker = new ExtensionAdsWorker();
+worker.initialize();
+</code></pre>
+
+<p><strong>Content Index</strong>: <code>packages/modules/extension-ads/src/content/index.ts</code></p>
+<pre><code class="language-typescript">import { adsMgr } from './content';
+const content = adsMgr;
+content.initialize();
+</code></pre>
+
+<p><strong>Purpose:</strong> Entry points for the extension-ads module. Imported by main extension's <code>src/worker/index.ts</code> and <code>src/content/index.ts</code>.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Tab Management</strong>: Tracks ads per tab, handles tab removal and URL changes</li>
+<li><strong>Ad Detection</strong>: Uses URL filtering and cosmetic filtering to detect ads</li>
+<li><strong>Ad Processing</strong>: Processes ad data, extracts content, tracks clicks</li>
+<li><strong>Event Emission</strong>: Emits <code>ad_detected</code> and <code>ad_clicked</code> events to the main worker</li>
+</ul>
+
+<p><strong>Ad Detection Flow:</strong></p>
+<ol>
+<li>Tab URL changes or page loads</li>
+<li>Worker processes network requests via webRequest API</li>
+<li>URL filters match ad-related requests</li>
+<li>Cosmetic filters identify ad elements in DOM</li>
+<li>Ad data collected (title, text, images, coordinates)</li>
+<li>Event emitted to main worker</li>
+</ol>
+
+<h4 id="rateservice-content">RateService (Content)</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/content/RateService.ts</code><br />
+<strong>Purpose</strong>: Injects the ad-rating popup and sends user responses back to the worker</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Popup Injection</strong>: Dynamically creates and injects notification HTML/CSS into the page</li>
+<li><strong>Message Handling</strong>: Listens for <code>webmunkExt.rateService.adRatingRequest</code> from worker</li>
+<li><strong>UI Rendering</strong>: Displays popup with question type (relevance or distraction) and three response buttons</li>
+<li><strong>Response Handling</strong>: Sends user response back to worker via <code>webmunkExt.rateService.adRatingResponse_{timestamp}</code></li>
+<li><strong>Notification Prevention</strong>: Removes survey notification if it exists before showing rating popup</li>
+</ul>
+
+<p><strong>Button Options:</strong></p>
+<ul>
+<li><strong>Relevance Type</strong>: "Relevant", "Not Relevant", "No Ads Seen"</li>
+<li><strong>Distraction Type</strong>: "Distracting", "Not Distracting", "No Ads Seen"</li>
+<li><strong>Close Button</strong>: X button in top-right corner sends "skip" response</li>
+</ul>
+
+<p><strong>Response Flow:</strong></p>
+<ol>
+<li>User clicks a response button or close button</li>
+<li>Button text (or "skip" for close) is sent as response</li>
+<li>Popup is removed from DOM</li>
+<li>Response sent to worker with action <code>webmunkExt.rateService.adRatingResponse_{timestamp}</code></li>
+</ol>
+
+<h4 id="rateservice-worker">RateService (Worker)</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/RateService.ts</code><br />
+<strong>Purpose</strong>: Decides when to show ad-rating prompts, enforces cooldown/daily limits, and tracks <code>ads_rated</code> events</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>10-Minute Cooldown</strong>: Uses <code>DELAY_BETWEEN_AD_RATING_POPUP</code> before showing another popup</li>
+<li><strong>Daily Cap</strong>: Max 15 popups/day (<code>popupData</code> counter per day in storage)</li>
+<li><strong>Alternating Questions</strong>: Toggles between relevance and distraction prompts (<code>RateType</code>)</li>
+<li><strong>Survey/Removal Guard</strong>: Skips prompts if surveys are blocked or extension removal notice is active
+   <ul>
+   <li><code>isSurveyBlocked()</code>: Determines if rating should be blocked based on survey timing
+     <ul>
+     <li>Returns <code>false</code> if 0 surveys completed (no blocking)</li>
+     <li>Returns <code>false</code> if 2 surveys completed (no blocking)</li>
+     <li>If 1 survey completed: Blocks if current time is after first week end time
+       <ul>
+       <li>First week end time = <code>weekEndTime - DELAY_BETWEEN_SURVEY</code></li>
+       <li>This ensures rating is blocked during the period between first and second survey</li>
+       </ul>
+     </li>
+     </ul>
+   </li>
+   <li><code>isExtensionHasToBeRemoved()</code>: Checks if <code>removeModalShowed</code> flag is set (extension removal notice shown)</li>
+   </ul>
+</li>
+<li><strong>Event Tracking</strong>: Tracks <code>ads_rated</code> with response, screenshot timestamp, and question version</li>
+</ul>
+
+<p><strong>Rating Flow:</strong></p>
+<ol>
+<li><strong>Trigger</strong>: ScreenshotService calls <code>rateService.send(tabId, timestamp)</code> when screenshot analysis result is not <code>'0'</code></li>
+<li><strong>Gate Checks</strong>: RateService verifies removal flag, survey block, daily cap (15/day), and cooldown</li>
+<li><strong>Request</strong>: Sends <code>webmunkExt.rateService.adRatingRequest</code> to the tab with timestamp and question type</li>
+<li><strong>UI</strong>: Content RateService renders popup with three buttons (Relevant/Not Relevant/No Ads Seen or Distracting/Not Distracting/No Ads Seen)</li>
+<li><strong>Response</strong>: Content sends <code>webmunkExt.rateService.adRatingResponse_{timestamp}</code> back; tab close reports <code>pageWasClosed</code></li>
+<li><strong>Tracking</strong>: Worker stores last notification time, increments daily count (except "skip"), and tracks <code>ads_rated</code></li>
+</ol>
+
+<h4 id="ublock-integration">uBlock Integration</h4>
+
+<p>The extension-ads module includes a forked version of uBlock Origin for ad blocking and filtering:</p>
+<ul>
+<li><strong>URL Filtering</strong>: Blocks ad-related network requests</li>
+<li><strong>Cosmetic Filtering</strong>: Hides ad elements in DOM</li>
+<li><strong>Filter Lists</strong>: Uses standard ad blocking filter lists</li>
+<li><strong>Web Accessible Resources</strong>: Scriptlets for advanced filtering</li>
+</ul>
+
+<h3 id="cookies-module">Cookies Module</h3>
+
+<p><strong>Location</strong>: <code>packages/modules/cookies/</code><br />
+<strong>Purpose</strong>: Collect and save cookie information</p>
+
+<p><strong>Module Description:</strong> This module tracks cookies on a web page and collects browser privacy settings.</p>
+
+<p><strong>Build Instructions:</strong> To build the module, use:</p>
+<pre><code class="language-bash">npm run build:dev
+</code></pre>
+
+<p><strong>License:</strong> Copyright 2022-2024 The Fradkin Foundation and the President &amp; Fellows of Harvard College. Licensed under MIT license (see module README for full license text).</p>
+
+<p><strong>Module Configuration</strong> (<code>module.json</code>):</p>
+<pre><code class="language-json">{
+  "name": "Cookies Scraper",
+  "permissions": [
+    {"name": "cookies", "justification": "to query and modify cookies"},
+    {"name": "tabs", "justification": "to interact with the browser's tab system"}
+  ]
+}
+</code></pre>
+
+<h4 id="cookiesworker">CookiesWorker</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/cookies/src/worker/CookiesWorker.ts</code><br />
+<strong>Purpose</strong>: Collects cookies and privacy settings</p>
+
+<h4 id="cookies-index">Cookies Module Index</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/cookies/src/worker/index.ts</code></p>
+<pre><code class="language-typescript">import { CookiesWorker } from './CookiesWorker';
+const worker = new CookiesWorker();
+worker.initialize();
+</code></pre>
+
+<p><strong>Purpose:</strong> Entry point for cookies module worker. Imported by main extension's <code>src/worker/index.ts</code>.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Cookie Collection</strong>: Gets all cookies via <code>chrome.cookies.getAll({})</code></li>
+<li><strong>Size Limiting</strong>: Truncates cookie data to 900KB (Jitsu payload limit)</li>
+<li><strong>Privacy Settings</strong>: Collects browser privacy settings (third-party cookies, topics, FLEDGE, ad measurement)</li>
+<li><strong>One-Time Recording</strong>: Records cookies once (tracked via <code>cookiesRecorded</code> flag)</li>
+</ul>
+
+<p><strong>Cookie Collection Flow:</strong></p>
+<ol>
+<li><strong>Initial Privacy Check</strong>: On successful registration (<code>webmunkExt.popup.successRegister</code>), <code>checkPrivacy()</code> is called to collect privacy settings and emit <code>privacy_settings</code> event</li>
+<li><strong>Survey Start Trigger</strong>: When user starts a survey (<code>isThisSurveyUrl()</code> detects survey URL), <code>recordCookiesIfNeeded()</code> is called if completed surveys exist</li>
+<li><strong>Survey Completion Trigger</strong>: After survey completion, <code>recordCookiesIfNeeded()</code> is called again</li>
+<li><strong>Message Relay</strong>: <code>recordCookiesIfNeeded()</code> sends <code>webmunkExt.worker.notifyCookiesModule</code> to content script, which relays <code>webmunkExt.worker.recordCookies</code> to worker</li>
+<li><strong>Cookie Recording</strong>: <code>recordCookies()</code> method:
+   <ul>
+   <li>Checks if cookies already recorded (via <code>cookiesRecorded</code> flag)</li>
+   <li>Gets all cookies from browser via <code>chrome.cookies.getAll({})</code></li>
+   <li>Truncates to 900KB (900_000 bytes) if needed using <code>getCookiesWithinSizeLimit()</code></li>
+   <li>Emits <code>cookies</code> event with cookie data</li>
+   <li>Sets <code>cookiesRecorded</code> flag to <code>true</code></li>
+   </ul>
+</li>
+</ol>
+
+<p><strong>Privacy Settings Collected:</strong></p>
+<ul>
+<li><code>thirdPartyCookiesAllowed</code></li>
+<li><code>topicsEnabled</code> (Privacy Sandbox)</li>
+<li><code>fledgeEnabled</code> (Privacy Sandbox)</li>
+<li><code>adMeasurementEnabled</code> (Privacy Sandbox)</li>
+</ul>
+
+<h3 id="ad-personalization-module">Ad Personalization Module</h3>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/</code><br />
+<strong>Purpose</strong>: Track ad personalization settings on specific websites</p>
+
+<p><strong>Module Description:</strong> This module is for setting up advertising personalization on designated websites: Amazon, Facebook, Instagram, YouTube, Google.</p>
+
+<p><strong>Build Instructions:</strong> To build the module, use:</p>
+<pre><code class="language-bash">npm run build:dev
+</code></pre>
+
+<p><strong>Module Configuration</strong> (<code>module.json</code>):</p>
+<pre><code class="language-json">{
+  "name": "Ad Personalization",
+  "host_permissions": []
+}
+</code></pre>
+
+<h4 id="adpersonalizationworker">AdPersonalizationWorker</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/worker/AdPersonalizationWorker.ts</code><br />
+<strong>Purpose</strong>: Manages ad personalization checking workflow</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Settings Checking</strong>: Opens tabs to check ad personalization settings</li>
+<li><strong>URL Management</strong>: Manages multiple URLs per personalization type (fallback URLs)</li>
+<li><strong>Error Handling</strong>: Tracks invalid items and working URLs</li>
+<li><strong>State Management</strong>: Tracks checked items in <code>chrome.storage.local</code></li>
+</ul>
+
+<p><strong>Personalization Types:</strong></p>
+<ul>
+<li><strong>Facebook</strong> (<code>fad</code>): Facebook ad preferences</li>
+<li><strong>Google & YouTube</strong> (<code>gyta</code>): Google ad settings</li>
+<li><strong>Amazon</strong> (<code>aap</code>): Amazon ad preferences</li>
+<li><strong>Only Information</strong> (<code>oi</code>): Information-only mode</li>
+</ul>
+
+<p><strong>Checking Flow:</strong></p>
+<ol>
+<li><strong>Initialization</strong>: <code>initSettings()</code> loads personalization items from <code>config.json</code> and stores in <code>adPersonalization.items</code></li>
+<li><strong>Periodic Check</strong>: <code>checkAdPersonalization()</code> is called during URL tracking (with 2-day cooldown):
+   <ul>
+   <li>Checks if ad personalization checking is needed (based on <code>personalizationConfigs</code>)</li>
+   <li>If needed and cooldown passed, sends <code>webmunkExt.worker.notifyAdPersonalization</code> to content script for each item</li>
+   <li>Content script relays to popup via <code>webmunkExt.popup.checkSettingsReq</code></li>
+   </ul>
+</li>
+<li><strong>Limited Retries</strong>: After 2 completed surveys, <code>sendAdPersonalizationWithLimit()</code> runs every <code>AD_PERSONALIZATION_RETRY_INTERVAL</code> (5 minutes) until each item is checked or reaches <code>MAX_AD_PERSONALIZATION_RETRY_ATTEMPTS</code> (3 attempts):
+   <ul>
+   <li>Only processes unchecked items that haven't exceeded max attempts</li>
+   <li>If tab is closed prematurely when <code>isNeedToLimit</code> is true, returns <code>{ closed: true }</code> response</li>
+   <li>Worker's <code>onAdPersonalizationModuleEvent()</code> detects <code>closed: true</code> and calls <code>incrementAdPersonalizationAttempt(key)</code></li>
+   <li>Attempts are tracked per key in <code>adPersonalizationAttempts</code> storage: <code>{ [key]: { attempts: number } }</code></li>
+   <li>Invalid items (all URLs failed) are stored in <code>adPersonalization.invalidItems</code> array</li>
+   </ul>
+</li>
+<li><strong>Settings Request</strong>: Worker receives <code>webmunkExt.popup.checkSettingsReq</code> with personalization key</li>
+<li><strong>URL Selection</strong>: <code>getAccordantUrl()</code> gets URL for personalization type:
+   <ul>
+   <li>First checks <code>adPersonalization.workingUrls</code> for cached working URL</li>
+   <li>Otherwise, uses URL from config based on current index</li>
+   <li>If URL fails, increments index and tries next URL (fallback mechanism)</li>
+   </ul>
+</li>
+<li><strong>Tab Creation</strong>: <code>createAndMonitorTab()</code> creates tab with URL and waits for page load</li>
+<li><strong>Settings Request</strong>: When page loads (<code>status === 'complete'</code>), sends <code>adsPersonalization.strategies.settingsRequest</code> to content script with key, value, and url</li>
+<li><strong>Strategy Execution</strong>: Content script (StrategyFactory → Strategy) extracts settings from page DOM</li>
+<li><strong>Response Handling</strong>: 
+   <ul>
+   <li>If successful (<code>response.values</code>): Stores checked item in <code>adPersonalization.checkedItems</code>, adds to working URLs, closes tab, emits <code>ad_personalization</code> event with values</li>
+   <li>If tab closed prematurely (<code>response.closed === true</code>): Only occurs when <code>isNeedToLimit</code> is true (after 2 surveys). Worker's <code>onAdPersonalizationModuleEvent()</code> detects this and calls <code>incrementAdPersonalizationAttempt(key)</code> to track the retry attempt</li>
+   <li>If error (<code>response.error</code>): Removes from working URLs, removes checked item, closes tab, tries next URL or adds to invalid items</li>
+   </ul>
+</li>
+</ol>
+
+<h4 id="adpersonalizationcontent">AdPersonalizationContent</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/content/AdPersonalizationContent.ts</code><br />
+<strong>Purpose</strong>: Content script that extracts ad personalization settings from pages</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Strategy Factory</strong>: Uses <code>StrategyFactory</code> to select appropriate strategy</li>
+<li><strong>Message Handling</strong>: Listens for <code>adsPersonalization.strategies.settingsRequest</code> messages</li>
+<li><strong>Strategy Execution</strong>: Delegates to selected strategy's <code>execute()</code> method</li>
+</ul>
+
+<p><strong>Strategy Pattern:</strong> Uses strategy pattern for site-specific extraction:</p>
+<ul>
+<li><strong>GoogleAndYoutubeStrategy</strong> (<code>gyta</code>): Extracts Google ad settings from myadcenter.google.com</li>
+<li><strong>FacebookActivityStrategy</strong> (<code>fad</code>): Extracts Facebook ad preferences from accountscenter.facebook.com</li>
+<li><strong>AmazonStrategy</strong> (<code>aap</code>): Extracts Amazon ad preferences from amazon.com/adprefs</li>
+<li><strong>BaseStrategy</strong>: Base class for all strategies with common functionality</li>
+</ul>
+
+<h4 id="strategy-factory">StrategyFactory</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/content/StrategyFactory.ts</code><br />
+<strong>Purpose</strong>: Factory class that creates and manages strategy instances</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Strategy Map</strong>: Maintains a Map of strategy key → strategy instance</li>
+<li><strong>Auto-Registration</strong>: Automatically creates instances of all exported strategies</li>
+<li><strong>Strategy Retrieval</strong>: <code>getStrategy(key)</code> method returns strategy by key</li>
+</ul>
+
+<p><strong>Initialization:</strong> On construction, creates instances of all strategies found in the <code>strategies/</code> directory and stores them in a Map keyed by their <code>strategyKey</code> property.</p>
+
+<h4 id="base-strategy">BaseStrategy</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/content/strategies/BaseStrategy.ts</code><br />
+<strong>Purpose</strong>: Abstract base class for all ad personalization strategies</p>
+
+<p><strong>Key Methods:</strong></p>
+<ul>
+<li><code>addBlurEffect()</code>: Adds blur overlay and loading spinner to page while processing</li>
+<li><code>waitForElements(selector, isNeedToDisabledTimeout?)</code>: Waits for DOM elements to appear (with 5-second timeout by default)</li>
+<li><code>waitForElement(selector, textContent?)</code>: Waits for specific element with optional text content match</li>
+<li><code>waitForPageReload()</code>: Waits for page URL to change (for Amazon strategy)</li>
+<li><code>sendResponseToWorker(response, error?)</code>: Sends settings response back to worker</li>
+</ul>
+
+<p><strong>Abstract Methods:</strong></p>
+<ul>
+<li><code>strategyKey</code>: Property that identifies the strategy (e.g., 'gyta', 'fad', 'aap')</li>
+<li><code>execute(data)</code>: Main execution method that extracts settings from page</li>
+</ul>
+
+<h4 id="google-youtube-strategy">GoogleAndYoutubeStrategy</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/content/strategies/GoogleAndYoutubeStrategy.ts</code><br />
+<strong>Strategy Key</strong>: <code>gyta</code><br />
+<strong>Target URL</strong>: <code>https://myadcenter.google.com/home</code></p>
+
+<p><strong>Execution Flow:</strong></p>
+<ol>
+<li>If <code>value</code> is undefined, reads current setting from page (Turn on/Turn off button state)</li>
+<li>If <code>value</code> is true, clicks "Turn off" button (or waits for "Turn on" if already off)</li>
+<li>If <code>value</code> is false, clicks "Turn off" button (or waits for "Turn on" if already on)</li>
+<li>Clicks save button (<code>[jsname="Lnwj0b"]</code> for on, <code>[jsname="mXJpKc"]</code> for off)</li>
+<li>Sends response with currentValue and initialValue</li>
+</ol>
+
+<h4 id="facebook-strategy">FacebookActivityStrategy</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/content/strategies/FacebookActivityStrategy.ts</code><br />
+<strong>Strategy Key</strong>: <code>fad</code><br />
+<strong>Target URL</strong>: <code>https://accountscenter.facebook.com/ad_preferences/ad_settings/data_from_partners</code></p>
+
+<p><strong>Execution Flow:</strong></p>
+<ol>
+<li>Navigates to target URL if not already there</li>
+<li>Clicks review button (specific CSS class selector)</li>
+<li>Waits for radio buttons to appear</li>
+<li>If <code>value</code> is undefined, reads current setting (radio1 = true, radio2 = false)</li>
+<li>If <code>value</code> is specified, clicks appropriate radio button</li>
+<li>Clicks confirm button</li>
+<li>Sends response with currentValue and initialValue</li>
+</ol>
+
+<p><strong>Special Features:</strong></p>
+<ul>
+<li>Handles Facebook login redirects</li>
+<li>Uses <code>waitForCheckedRadio()</code> method with 10-second timeout</li>
+<li>Error handling for missing elements</li>
+</ul>
+
+<h4 id="amazon-strategy">AmazonStrategy</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/content/strategies/AmazonStrategy.ts</code><br />
+<strong>Strategy Key</strong>: <code>aap</code><br />
+<strong>Target URL</strong>: <code>https://www.amazon.com/adprefs</code></p>
+
+<p><strong>Execution Flow:</strong></p>
+<ol>
+<li>Handles sign-in button if present (clicks and waits for URL change)</li>
+<li>Waits for opt-out checkboxes to appear</li>
+<li>Retrieves or stores <code>amazonInitialValue</code> from storage (persists across page reloads)</li>
+<li>If <code>value</code> is undefined, reads current setting (value === '0' means opted out)</li>
+<li>If <code>value</code> is specified, clicks appropriate checkbox (value='0' for opt-out, value='1' for opt-in)</li>
+<li>Clicks save button (<code>#optOutControl</code>)</li>
+<li>Waits for page reload</li>
+<li>Sends response with currentValue and initialValue</li>
+</ol>
+
+<p><strong>Special Features:</strong></p>
+<ul>
+<li>Stores initial value in <code>chrome.storage.local</code> to persist across page reloads</li>
+<li>Uses <code>observeUrlChanging()</code> to detect sign-in redirects</li>
+<li>Handles page reload after save</li>
+</ul>
+
+<h4 id="strategy-index">Strategy Index</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/content/strategies/index.ts</code><br />
+<strong>Purpose</strong>: Exports all strategy classes</p>
+
+<p><strong>Exports:</strong></p>
+<pre><code class="language-typescript">export * from './AmazonStrategy';
+export * from './FacebookActivityStrategy';
+export * from './GoogleAndYoutubeStrategy';
+</code></pre>
+
+<p><strong>Usage:</strong> Imported by <code>StrategyFactory.ts</code> to automatically discover and register all strategies.</p>
+
+<h4 id="error-messages">ErrorMessages</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/ErrorMessages.ts</code><br />
+<strong>Purpose</strong>: Error message constants for ad personalization module</p>
+
+<p><strong>Enum Values:</strong></p>
+<ul>
+<li><code>INVALID_URL</code>: "No valid URLs" - Used when URL is invalid or element not found</li>
+<li><code>NO_ELEMENT</code>: "ELement not found" - Used when required DOM element is missing</li>
+</ul>
+
+<p><strong>Usage:</strong> Used by strategies to send error responses back to the worker when extraction fails.</p>
+
+<h4 id="ad-personalization-types">Ad Personalization Types</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/types.ts</code><br />
+<strong>Purpose</strong>: TypeScript type definitions for ad personalization module</p>
+
+<p><strong>Type Definitions:</strong></p>
+<pre><code class="language-typescript">export type PersonalizationData = {
+  key: string;
+  value?: boolean;
+  url: string;
+}
+</code></pre>
+
+<p><strong>Usage:</strong> Used by strategies and AdPersonalizationContent to type-check data passed to strategy <code>execute()</code> methods.</p>
+
+<h4 id="ad-personalization-config">Ad Personalization Config</h4>
+
+<p><strong>Location</strong>: <code>packages/modules/ad-personalization/src/data/config.json</code><br />
+<strong>Purpose</strong>: Configuration file defining ad personalization items</p>
+
+<p><strong>Structure:</strong></p>
+<pre><code class="language-json">[
+  {
+    "key": "gyta",
+    "name": "Google/YouTube",
+    "url": ["https://myadcenter.google.com/home"]
+  },
+  {
+    "key": "aap",
+    "name": "Amazon",
+    "url": ["https://www.amazon.com/adprefs"]
+  },
+  {
+    "key": "fad",
+    "name": "Facebook Activity Information/Instagram",
+    "url": ["https://accountscenter.facebook.com/ad_preferences/ad_settings/data_from_partners"]
+  }
+]
+</code></pre>
+
+<p><strong>Usage:</strong> Loaded by <code>AdPersonalizationWorker.initSettings()</code> and stored in <code>adPersonalization.items</code> storage key.</p>
+
+<h4 id="ad-personalization-index-files">Ad Personalization Index Files</h4>
+
+<p><strong>Worker Index</strong>: <code>packages/modules/ad-personalization/src/worker/index.ts</code></p>
+<pre><code class="language-typescript">import { AdPersonalizationWorker } from './AdPersonalizationWorker';
+export const adPersonalization = new AdPersonalizationWorker();
+adPersonalization.initialize();
+</code></pre>
+
+<p><strong>Content Index</strong>: <code>packages/modules/ad-personalization/src/content/index.ts</code></p>
+<pre><code class="language-typescript">import { AdPersonalizationContent } from './AdPersonalizationContent';
+const content = new AdPersonalizationContent();
+content.initialize();
+</code></pre>
+
+<p><strong>Purpose:</strong> Entry points for the module. Imported by main extension's <code>src/worker/index.ts</code> and <code>src/content/index.ts</code>.</p>
+
+<hr />
+
+<h2 id="event-system">Event System</h2>
+
+<p>The extension utilizes an event-based system to manage interactions between different components. This system ensures that various parts of the extension can communicate and react to changes in a decoupled manner.</p>
+
+<h3 id="main-extension-events">Main Extension Events</h3>
+
+<p>These events are used by the main extension worker and popup:</p>
+
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+<th>Data Format</th>
+<th>Emitted From</th>
+<th>Listened By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>webmunkExt.popup.checkSettingsReq</code></td>
+<td>Sent to the ad-personalization module when checking the personalization settings for a specific ad URL</td>
+<td><code>{ url: string, key: string }</code></td>
+<td>Popup/Worker</td>
+<td>AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>webmunkExt.popup.successRegister</code></td>
+<td>Sent to check the privacy settings related to cookies and survey downloads on the main worker</td>
+<td>None</td>
+<td>Popup</td>
+<td>Worker, CookiesWorker</td>
+</tr>
+<tr>
+<td><code>webmunkExt.popup.loginReq</code></td>
+<td>User login request with Prolific ID</td>
+<td><code>{ prolificId: string }</code></td>
+<td>Popup</td>
+<td>Worker</td>
+</tr>
+<tr>
+<td><code>webmunkExt.popup.loginRes</code></td>
+<td>Login response with user data or error</td>
+<td><code>{ data: User }</code> or <code>{ error: string }</code></td>
+<td>Worker</td>
+<td>Popup</td>
+</tr>
+<tr>
+<td><code>webmunkExt.worker.notifyAdPersonalization</code></td>
+<td>Notify content script to check ad personalization settings</td>
+<td><code>{ key: string }</code></td>
+<td>Worker</td>
+<td>Content NotificationService</td>
+</tr>
+<tr>
+<td><code>webmunkExt.worker.notifyCookiesModule</code></td>
+<td>Trigger cookie recording</td>
+<td>None</td>
+<td>Worker</td>
+<td>Content NotificationService</td>
+</tr>
+<tr>
+<td><code>webmunkExt.worker.recordCookies</code></td>
+<td>Record all cookies from browser memory</td>
+<td>None</td>
+<td>Content NotificationService</td>
+<td>CookiesWorker</td>
+</tr>
+<tr>
+<td><code>page_action</code></td>
+<td>Page scroll/click event for screenshot trigger</td>
+<td><code>{ url: string }</code></td>
+<td>Content Script</td>
+<td>Worker</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="extension-ads-module-events">Extension Ads Module Events</h3>
+
+<p>These events are emitted by the extension-ads module:</p>
+
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+<th>Payload</th>
+<th>Emitted From</th>
+<th>Listened By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ad_detected</code></td>
+<td>Emitted when an advertisement is detected on a webpage</td>
+<td><code>{ pageUrl: string, title: string, company: string, text: string, coordinates: any, initialUrl: string, redirected: boolean, redirectedUrl: string | null, content: any[], adId: string }</code></td>
+<td>ExtensionAdsWorker.sendAdsIfNeeded()</td>
+<td>Main Worker (via module listener)</td>
+</tr>
+<tr>
+<td><code>ad_clicked</code></td>
+<td>Emitted when a user clicks on an advertisement</td>
+<td><code>{ adId: string, clickedUrl: string, pageUrl: string }</code></td>
+<td>ExtensionAdsWorker._onMessage_adClicked()</td>
+<td>Main Worker (via module listener)</td>
+</tr>
+<tr>
+<td><code>ads_rated</code></td>
+<td>Emitted after a set of advertisements is rated</td>
+<td><code>{ mark: RateResponses | string, adIds: string[] }</code></td>
+<td>ExtensionAdsWorker.rateAdsIfNeeded()</td>
+<td>Main Worker (via module listener)</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="cookies-module-events">Cookies Module Events</h3>
+
+<p>These events are used by the cookies module:</p>
+
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+<th>Data Format</th>
+<th>Emitted From</th>
+<th>Listened By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>webmunkExt.popup.successRegister</code></td>
+<td>Triggered to check the privacy settings related to cookies on a website</td>
+<td>None</td>
+<td>Popup</td>
+<td>CookiesWorker</td>
+</tr>
+<tr>
+<td><code>webmunkExt.worker.recordCookies</code></td>
+<td>Triggered to record all cookies from the browser's memory</td>
+<td>None</td>
+<td>Worker/Content</td>
+<td>CookiesWorker</td>
+</tr>
+<tr>
+<td><code>cookies</code></td>
+<td>Emitted when cookies are collected</td>
+<td><code>{ cookies: chrome.cookies.Cookie[] }</code></td>
+<td>CookiesWorker.recordCookies()</td>
+<td>Main Worker (via module listener)</td>
+</tr>
+<tr>
+<td><code>privacy_settings</code></td>
+<td>Emitted when privacy settings are collected</td>
+<td><code>{ thirdPartyCookiesAllowed: boolean, topicsEnabled: boolean, fledgeEnabled: boolean, adMeasurementEnabled: boolean }</code></td>
+<td>CookiesWorker.checkPrivacy()</td>
+<td>Main Worker (via module listener)</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="ad-personalization-module-events">Ad Personalization Module Events</h3>
+
+<p>These events are used by the ad-personalization module:</p>
+
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+<th>Data Format</th>
+<th>Emitted From</th>
+<th>Listened By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>webmunkExt.popup.checkSettingsReq</code></td>
+<td>Triggered when the popup requests the module to check current ad personalization settings for a particular website</td>
+<td><code>{ url: string, key: string }</code></td>
+<td>Popup/Worker</td>
+<td>AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>adsPersonalization.strategies.settingsRequest</code></td>
+<td>Triggered by the module itself once a website's page finishes loading, requesting specific ad personalization settings</td>
+<td><code>{ key: string, value: boolean | string, url: string }</code></td>
+<td>AdPersonalizationWorker</td>
+<td>AdPersonalizationContent</td>
+</tr>
+<tr>
+<td><code>adsPersonalization.strategies.settingsResponse</code></td>
+<td>Emitted when the module receives the ad personalization settings from the website's content and processes them</td>
+<td><code>{ response: { values: { currentValue: boolean, initialValue?: boolean }, error?: string } }</code></td>
+<td>AdPersonalizationContent (Strategy)</td>
+<td>AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>ad_personalization</code></td>
+<td>Emitted when the module successfully completes an ad personalization task on a website</td>
+<td><code>{ key: string, url: string, values: { currentValue: boolean, initialValue?: boolean } }</code></td>
+<td>AdPersonalizationWorker.handleCheckSettingsRequest()</td>
+<td>Main Worker (via module listener)</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="ad-rating-events">Ad Rating Events</h3>
+
+<p>These events are used for the ad rating system:</p>
+
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+<th>Data Format</th>
+<th>Emitted From</th>
+<th>Listened By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>extensionAds.rateService.adRatingRequest</code></td>
+<td>Request to show ad rating UI on page</td>
+<td>None</td>
+<td>RateService (worker)</td>
+<td>RateService (content)</td>
+</tr>
+<tr>
+<td><code>extensionAds.rateService.adRatingResponse</code></td>
+<td>User's rating response (relevance, distraction, or skip)</td>
+<td><code>{ relevance: string | null, distraction: string | null }</code> or <code>'skip'</code> or <code>'noAdsSeen'</code></td>
+<td>RateService (content)</td>
+<td>RateService (worker)</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="notification-events">Notification Events</h3>
+
+<p>These events are used for in-page notifications:</p>
+
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+<th>Data Format</th>
+<th>Emitted From</th>
+<th>Listened By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>webmunkExt.notificationService.extensionNotificationRequest</code></td>
+<td>Request to display notification on page</td>
+<td><code>{ text: string }</code></td>
+<td>NotificationService (worker)</td>
+<td>NotificationService (content)</td>
+</tr>
+<tr>
+<td><code>webmunkExt.notificationService.extensionNotificationResponse</code></td>
+<td>Response confirming notification displayed</td>
+<td>None</td>
+<td>NotificationService (content)</td>
+<td>NotificationService (worker)</td>
+</tr>
+<tr>
+<td><code>webmunkExt.notificationService.isThereNotificationReq</code></td>
+<td>Check if notification exists on page</td>
+<td>None</td>
+<td>ScreenshotService</td>
+<td>NotificationService (content)</td>
+</tr>
+<tr>
+<td><code>webmunkExt.notificationService.isThereNotificationRes</code></td>
+<td>Response indicating if notification exists</td>
+<td><code>{ result: boolean }</code></td>
+<td>NotificationService (content)</td>
+<td>ScreenshotService</td>
+</tr>
+<tr>
+<td><code>webmunkExt.notificationService.removeExtension</code></td>
+<td>Request to uninstall extension</td>
+<td>None</td>
+<td>NotificationService (content)</td>
+<td>NotificationService (worker)</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="storage-keys">Storage Keys</h2>
+
+<p>The extension uses <code>chrome.storage.local</code> to persist data across service worker restarts. This section documents all storage keys used throughout the extension.</p>
+
+<h3 id="user-and-session-storage">User and Session Storage</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Data Type</th>
+<th>Set By</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>user</code></td>
+<td>Current user data (User object)</td>
+<td><code>User</code></td>
+<td>FirebaseAppService</td>
+<td>All services</td>
+</tr>
+<tr>
+<td><code>sessions</code></td>
+<td>Tab session mappings (JSON string)</td>
+<td><code>string</code></td>
+<td>sessionMgr</td>
+<td>sessionMgr</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="survey-storage">Survey Storage</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Data Type</th>
+<th>Set By</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>surveys</code></td>
+<td>List of active surveys</td>
+<td><code>SurveyItem[]</code></td>
+<td>SurveyService</td>
+<td>Popup, SurveyService</td>
+</tr>
+<tr>
+<td><code>completedSurveys</code></td>
+<td>List of completed surveys</td>
+<td><code>SurveyItem[]</code></td>
+<td>SurveyService</td>
+<td>SurveyService</td>
+</tr>
+<tr>
+<td><code>lastSurveyIndex</code></td>
+<td>Index of last loaded survey</td>
+<td><code>number</code></td>
+<td>SurveyService</td>
+<td>SurveyService</td>
+</tr>
+<tr>
+<td><code>weekEndTime</code></td>
+<td>Timestamp when week timing ends</td>
+<td><code>number</code></td>
+<td>SurveyService</td>
+<td>SurveyService</td>
+</tr>
+<tr>
+<td><code>fillOutModalShowed</code></td>
+<td>Timestamp when fill-out notification was last shown</td>
+<td><code>number</code></td>
+<td>SurveyService</td>
+<td>SurveyService</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="ad-personalization-storage">Ad Personalization Storage</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Data Type</th>
+<th>Set By</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>adPersonalization.items</code></td>
+<td>List of ad personalization items (URLs, names, keys)</td>
+<td><code>AdPersonalizationItem[]</code></td>
+<td>AdPersonalizationWorker.initSettings()</td>
+<td>Worker, AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>adPersonalization.checkedItems</code></td>
+<td>Mapping of checked personalization items (key → response)</td>
+<td><code>Record&lt;string, any&gt;</code></td>
+<td>AdPersonalizationWorker</td>
+<td>Worker, AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>adPersonalization.invalidItems</code></td>
+<td>List of items that encountered errors during personalization</td>
+<td><code>Array&lt;{ key: string, error: string }&gt;</code></td>
+<td>AdPersonalizationWorker</td>
+<td>AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>adPersonalization.workingUrls</code></td>
+<td>Mapping of working URLs per personalization key</td>
+<td><code>Record&lt;string, string&gt;</code></td>
+<td>AdPersonalizationWorker</td>
+<td>AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>personalizationConfigs</code></td>
+<td>Ad personalization configuration flags</td>
+<td><code>Record&lt;string, boolean | string&gt;</code></td>
+<td>SurveyService</td>
+<td>Worker, AdPersonalizationWorker</td>
+</tr>
+<tr>
+<td><code>personalizationTime</code></td>
+<td>Timestamp when ad personalization was last checked</td>
+<td><code>number</code></td>
+<td>Worker</td>
+<td>Worker</td>
+</tr>
+<tr>
+<td><code>amazonInitialValue</code></td>
+<td>Stores initial Amazon ad personalization value (persists across page reloads)</td>
+<td><code>boolean</code></td>
+<td>AmazonStrategy</td>
+<td>AmazonStrategy</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="domain-exclusion-storage">Domain Exclusion Storage</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Data Type</th>
+<th>Set By</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>excludedDomains</code></td>
+<td>List of domains to exclude from tracking</td>
+<td><code>string[]</code></td>
+<td>DomainService</td>
+<td>DomainService, ScreenshotService</td>
+</tr>
+<tr>
+<td><code>excludedDomainVisits</code></td>
+<td>Mapping of excluded domains to visit counts</td>
+<td><code>Record&lt;string, number&gt;</code></td>
+<td>DomainService</td>
+<td>DomainService</td>
+</tr>
+<tr>
+<td><code>dayEndTime</code></td>
+<td>Timestamp when daily reporting period ends</td>
+<td><code>number</code></td>
+<td>DomainService</td>
+<td>DomainService</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="ad-rating-storage">Ad Rating Storage</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Data Type</th>
+<th>Set By</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lastAdsRateNotificationTime</code></td>
+<td>Timestamp when last ad rating notification was shown</td>
+<td><code>number</code></td>
+<td>RateService (worker)</td>
+<td>RateService (worker)</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="cookie-storage">Cookie Storage</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Data Type</th>
+<th>Set By</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cookiesRecorded</code></td>
+<td>Flag indicating if cookies have been recorded</td>
+<td><code>boolean</code></td>
+<td>CookiesWorker</td>
+<td>CookiesWorker</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="extension-lifecycle-storage">Extension Lifecycle Storage</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Data Type</th>
+<th>Set By</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>removeModalShowed</code></td>
+<td>Timestamp when remove extension notification was last shown</td>
+<td><code>number</code></td>
+<td>Worker</td>
+<td>Worker, RateService</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="build-system">Build System</h2>
+
+<h3 id="webpack-configuration">Webpack Configuration</h3>
+
+<p>The build system uses a modular webpack configuration approach with base, dev, and production configs.</p>
+
+<h4 id="base-config">Base Configuration</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/webpack.addon.config.base.js</code><br />
+<strong>Purpose</strong>: Shared webpack configuration for all build modes</p>
+
+<p><strong>Entry Points:</strong></p>
+<ul>
+<li><code>content</code>: <code>./src/content/index.ts</code> - Content script bundle</li>
+<li><code>background</code>: <code>./src/worker/index.ts</code> - Service worker bundle</li>
+<li><code>popup/popup</code>: <code>./src/popup/Popup.ts</code> - Popup UI bundle</li>
+<li><code>options</code>: <code>/src/options/options.js</code> - Options page bundle</li>
+</ul>
+
+<p><strong>Loaders:</strong></p>
+<ul>
+<li><strong>ts-loader</strong>: Compiles TypeScript files (excludes node_modules)</li>
+<li><strong>babel-loader</strong>: Transpiles JavaScript files with webpack-preprocessor-loader for conditional compilation</li>
+<li><strong>webpack-preprocessor-loader</strong>: Processes conditional code based on <code>target: 'addon'</code> and <code>mode</code> parameters</li>
+</ul>
+
+<p><strong>Plugins:</strong></p>
+<ul>
+<li><strong>CopyPlugin</strong>: Copies files to dist:
+  <ul>
+  <li>Icons from <code>./assets/icons</code> to <code>./icons</code></li>
+  <li>Web accessible resources from <code>./assets/web_accessible_resources</code></li>
+  <li>Popup HTML and CSS</li>
+  <li>Images directory</li>
+  <li>Pages directory (survey-completed.html)</li>
+  <li>uBlock Origin files from extension-ads module</li>
+  </ul>
+</li>
+<li><strong>Dotenv</strong>: Loads environment variables from <code>.env.{BUILD_ENV}</code> file (development or production)</li>
+</ul>
+
+<h4 id="development-config">Development Configuration</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/webpack.addon.config.dev.js</code><br />
+<strong>Purpose</strong>: Development build with source maps and hot reloading</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Mode</strong>: <code>development</code></li>
+<li><strong>Source Maps</strong>: <code>inline-source-map</code> for debugging</li>
+<li><strong>Manifest</strong>: Appends <code>_dev</code> to extension name</li>
+<li><strong>Process Polyfill</strong>: Provides <code>process</code> global for browser environment</li>
+<li><strong>Manifest Merging</strong>: Calls <code>mergeManifests()</code> to combine base manifest with module manifests</li>
+</ul>
+
+<h4 id="production-config">Production Configuration</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/webpack.addon.chrome.config.prod.js</code><br />
+<strong>Purpose</strong>: Optimized production build</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Mode</strong>: <code>production</code></li>
+<li><strong>Source Maps</strong>: <code>inline-source-map</code> (can be removed for smaller builds)</li>
+<li><strong>Manifest</strong>: Uses base manifest name (no <code>_dev</code> suffix)</li>
+<li><strong>Optimization</strong>: Webpack production optimizations enabled</li>
+</ul>
+
+<h4 id="production-zip-config">Production Zip Configuration</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/webpack.addon.chrome.config.prod.zip.js</code><br />
+<strong>Purpose</strong>: Production build with zip file creation for Chrome Web Store</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Extends production config</li>
+<li><strong>ZipPlugin</strong>: Creates zip file in <code>../builds</code> directory</li>
+<li>Zip filename format: <code>{package.name}_prod_{DD_MM_YYYY}.zip</code> (e.g., <code>webmunk-ext_prod_15_01_2025.zip</code>)</li>
+<li>Zip file contains entire <code>dist/</code> directory contents</li>
+<li>Uses current date for filename to prevent overwriting previous builds</li>
+</ul>
+
+<p><strong>Loaders:</strong></p>
+<ul>
+<li><strong>ts-loader</strong>: Compiles TypeScript files</li>
+<li><strong>babel-loader</strong>: Transpiles JavaScript files</li>
+<li><strong>webpack-preprocessor-loader</strong>: Conditional code compilation based on build mode</li>
+</ul>
+
+<p><strong>Plugins:</strong></p>
+<ul>
+<li><strong>CopyPlugin</strong>: Copies assets, icons, images, HTML files to dist</li>
+<li><strong>Dotenv</strong>: Injects environment variables from <code>.env.{BUILD_ENV}</code> files</li>
+<li><strong>WebpackExtensionManifestPlugin</strong>: Generates and merges manifest.json</li>
+<li><strong>ZipPlugin</strong> (production only): Creates zip file for Chrome Web Store</li>
+</ul>
+
+<h3 id="worker-and-content-index-files">Worker and Content Index Files</h3>
+
+<h4 id="worker-index">Worker Index</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/worker/index.ts</code><br />
+<strong>Purpose</strong>: Main entry point for the service worker</p>
+
+<p><strong>Content:</strong></p>
+<pre><code class="language-typescript">import { Worker } from './Worker';
+
+const worker = new Worker();
+worker.initialize();
+</code></pre>
+
+<p><strong>Module Imports:</strong> Module worker scripts are imported in <code>Worker.ts</code> (lines 18-20) before the Worker class is instantiated:
+- <code>@webmunk/extension-ads/worker</code>
+- <code>@webmunk/cookies-scraper/worker</code>
+- <code>@webmunk/ad-personalization/worker</code></p>
+
+<p><strong>Import Order:</strong> Modules must be imported before the Worker class is instantiated. The import order matters because modules register themselves with the messenger system during import.</p>
+
+<h4 id="content-index">Content Index</h4>
+
+<p><strong>Location</strong>: <code>webmunk-ext/src/content/index.ts</code><br />
+<strong>Purpose</strong>: Main entry point for content scripts</p>
+
+<p><strong>Content:</strong></p>
+<pre><code class="language-typescript">// this is where you could import your webmunk module content scripts
+import "@webmunk/extension-ads/content";
+import "@webmunk/ad-personalization/content";
+import { Content } from './Content';
+
+new Content().initialize();
+</code></pre>
+
+<p><strong>Module Imports:</strong> Module content scripts are imported before the main Content class:
+- <code>@webmunk/extension-ads/content</code>
+- <code>@webmunk/ad-personalization/content</code></p>
+
+<p><strong>Note:</strong> The cookies module does not have a content script, only a worker script.</p>
+
+<h3 id="manifest-merging">Manifest Merging</h3>
+
+<p><strong>Process</strong> (<code>packages/utils-scripts/scripts/mergeManifests.js</code>):</p>
+
+<ol>
+<li><strong>Module Discovery</strong>: Scans <code>packages/modules/</code> for directories containing <code>module.json</code></li>
+<li><strong>Manifest Loading</strong>: Loads base manifest from <code>src/chrome/baseManifest.json</code></li>
+<li><strong>Module Manifest Processing</strong>:
+   <ul>
+   <li>Loads each module's <code>module.json</code></li>
+   <li>Extracts permission justifications</li>
+   <li>Removes justifications from permissions array (Chrome doesn't accept them)</li>
+   </ul>
+</li>
+<li><strong>Merging</strong>: Deep merges module manifests into base manifest</li>
+<li><strong>Conflict Resolution</strong>: Warns if modules try to override base manifest fields</li>
+</ol>
+
+<p><strong>Merged Manifest Structure:</strong></p>
+<pre><code class="language-json">{
+  "manifest_version": 3,
+  "name": "Ad Study",
+  "permissions": [
+    "management",
+    "webRequest",
+    "storage",
+    "unlimitedStorage",
+    "webNavigation",
+    "alarms",
+    "privacy",
+    "activeTab",
+    "cookies",
+    "tabs"
+  ],
+  "host_permissions": ["&lt;all_urls&gt;", "*://*/*"]
+}
+</code></pre>
+
+<h3 id="build-utility-scripts">Build Utility Scripts</h3>
+
+<h4 id="depsfrommodules">depsFromModules</h4>
+
+<p><strong>Location</strong>: <code>packages/utils-scripts/scripts/depsFromModules.js</code><br />
+<strong>Purpose</strong>: Scans source files to find all <code>@webmunk</code> module imports</p>
+
+<p><strong>Key Function:</strong></p>
+<ul>
+<li><code>searchModulesInDirectory(directory)</code>: Recursively scans directory for <code>.js</code> and <code>.ts</code> files, extracts <code>@webmunk/</code> module names from import statements</li>
+<li>Excludes <code>utils</code> module from results</li>
+<li>Removes comments before parsing to avoid false matches</li>
+<li>Returns unique array of module names</li>
+</ul>
+
+<p><strong>Usage:</strong> Used by <code>mergeManifests.js</code> to automatically discover which modules are being used in the extension.</p>
+
+<h4 id="copydir">copyDir</h4>
+
+<p><strong>Location</strong>: <code>packages/utils-scripts/scripts/copyDir.js</code><br />
+<strong>Purpose</strong>: Copies module build artifacts to extension dist directory</p>
+
+<p><strong>Key Function:</strong></p>
+<ul>
+<li><code>copyDir(scope, path, relativeSrcPath, dirName, destPath)</code>: 
+  <ul>
+  <li>Scans source directory for module imports</li>
+  <li>For each module found, copies <code>node_modules/{scope}/{module}/dist/wm{dirName}</code> to destination path</li>
+  <li>Used to copy module assets (e.g., <code>wmcontent</code>, <code>wmworker</code> directories) to extension build output</li>
+  </ul>
+</li>
+</ul>
+
+<p><strong>Usage:</strong> Called during webpack build process to copy module-specific files (content scripts, worker scripts, assets) into the extension's dist directory.</p>
+
+<h3 id="build-commands">Build Commands</h3>
+
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>npm run addon:dev:hot</code></td>
+<td>Development build with hot reloading</td>
+<td><code>dist/</code> directory</td>
+</tr>
+<tr>
+<td><code>npm run addon:build:prod</code></td>
+<td>Production build (optimized)</td>
+<td><code>dist/</code> directory</td>
+</tr>
+<tr>
+<td><code>npm run addon:build:prod-zip</code></td>
+<td>Production build + zip file</td>
+<td><code>dist/</code> + <code>dist.zip</code></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Build Environment Variables:</strong></p>
+<ul>
+<li><code>MANIFEST_VERSION=3</code>: Sets manifest version</li>
+<li><code>BUILD_ENV=development|production</code>: Selects environment file</li>
+</ul>
+
+<hr />
+
+<h2 id="firebase-integration">Firebase Integration</h2>
+
+<h3 id="firebase-services">Firebase Services</h3>
+
+<p><strong>Services Used:</strong></p>
+<ul>
+<li><strong>Authentication</strong>: Anonymous authentication for service worker</li>
+<li><strong>Firestore</strong>: User data storage</li>
+<li><strong>Remote Config</strong>: Survey and configuration management</li>
+<li><strong>Storage</strong>: Screenshot storage</li>
+<li><strong>Cloud Functions</strong>: Server-side logic (sign-in, screenshot analysis, uninstall tracking)</li>
+</ul>
+
+<h3 id="cloud-functions">Cloud Functions</h3>
+
+<h4 id="functions-index">Functions Index</h4>
+
+<p><strong>Location</strong>: <code>functions/src/index.ts</code><br />
+<strong>Purpose</strong>: Main entry point for Firebase Cloud Functions</p>
+
+<p><strong>Exports:</strong></p>
+<pre><code class="language-typescript">import { initializeApp } from 'firebase-admin/app';
+initializeApp();
+
+export { signIn } from './signIn';
+export { uninstall } from './uninstall';
+export { analyzeScreenshot } from './analyzeScreenshot';
+</code></pre>
+
+<p><strong>Purpose:</strong> Initializes Firebase Admin SDK and exports all Cloud Functions for deployment.</p>
+
+<h4 id="signin-function">signIn Function</h4>
+
+<p><strong>Location</strong>: <code>functions/src/signIn.ts</code><br />
+<strong>Purpose</strong>: Creates new user in Firestore with Prolific ID</p>
+
+<p><strong>Function Signature:</strong></p>
+<pre><code class="language-typescript">export const signIn = onCall&lt;{ prolificId: string }&gt;(async (request) => {
+  // Implementation
+});
+</code></pre>
+
+<p><strong>Flow:</strong></p>
+<ol>
+<li>Receives <code>prolificId</code> from extension (via Firebase callable function)</li>
+<li>Gets <code>sessionUid</code> from Firebase Auth (anonymous authentication)</li>
+<li>Checks if user with Prolific ID already exists in Firestore</li>
+<li>If exists, throws <code>already-exists</code> error</li>
+<li>If not exists, creates new user document with:
+   <ul>
+   <li><code>sessionUid</code>: Firebase Auth UID</li>
+   <li><code>prolificId</code>: Prolific participant ID</li>
+   <li><code>uid</code>: Generated UUID (unique user identifier)</li>
+   <li><code>active</code>: true</li>
+   </ul>
+</li>
+<li>Returns user object to extension</li>
+</ol>
+
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li><code>invalid-argument</code>: Missing sessionUid or prolificId</li>
+<li><code>already-exists</code>: Prolific ID is already in use</li>
+<li><code>internal</code>: Unexpected error during sign-in</li>
+</ul>
+
+<h4 id="analyzescreenshot-function">analyzeScreenshot Function</h4>
+
+<p><strong>Location</strong>: <code>functions/src/analyzeScreenshot.ts</code><br />
+<strong>Purpose</strong>: Analyzes screenshots using OpenAI gpt-5 to identify and count advertisements</p>
+
+<p><strong>Function Signature:</strong></p>
+<pre><code class="language-typescript">export const analyzeScreenshot = onRequest(async (req, res) => {
+  // Implementation
+});
+</code></pre>
+
+<p><strong>Flow:</strong></p>
+<ol>
+<li>Receives screenshot data URL from extension (via HTTP POST request)</li>
+<li>Validates request (checks for <code>dataUrl</code> in body)</li>
+<li>Primary path: calls Azure OpenAI (<code>gpt-5</code>) via secrets <code>AZURE_OPENAI_API_KEY</code> / <code>AZURE_OPENAI_ENDPOINT</code></li>
+<li>Fallback path: calls OpenAI Responses API with <code>gpt-5</code> if Azure fails</li>
+<li>Both calls use the same prompt and return formatted string: <code>[TOTAL]+---+[AD1]+---+[AD2]+---+...</code></li>
+<li>Returns <code>{ result }</code> JSON to the extension</li>
+</ol>
+
+<p><strong>Prompt:</strong> Instructs the model to identify, count, and summarize every advertisement on the page, following grouping rules (individual labels vs. group labels) and output format <code>[TOTAL]+---+[AD1]+---+[AD2]+---+...</code>.</p>
+
+<p><strong>Response Format:</strong> Returns JSON with <code>result</code> containing the formatted ad analysis string.</p>
+
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li>400: Missing <code>dataUrl</code> in request body</li>
+<li>500: Internal server error (OpenAI API failure, etc.)</li>
+</ul>
+
+<p><strong>CORS:</strong> Allows all origins (<code>*</code>) for POST and OPTIONS requests.</p>
+
+<h4 id="uninstall-function">uninstall Function</h4>
+
+<p><strong>Location</strong>: <code>functions/src/uninstall.ts</code><br />
+<strong>Purpose</strong>: Tracks extension uninstallations</p>
+
+<p><strong>Function Signature:</strong></p>
+<pre><code class="language-typescript">export const uninstall = onRequest((req, res) => {
+  // Implementation
+});
+</code></pre>
+
+<p><strong>Flow:</strong></p>
+<ol>
+<li>Receives <code>prolificId</code> from extension (via HTTP POST request)</li>
+<li>Validates request (checks for <code>prolificId</code> in body)</li>
+<li>Checks if uninstall record already exists in Firestore <code>uninstalls</code> collection</li>
+<li>If exists, returns 403 error</li>
+<li>If not exists, creates new uninstall document with:
+   <ul>
+   <li><code>prolificId</code>: Prolific participant ID</li>
+   <li><code>timestamp</code>: ISO timestamp of uninstall</li>
+   </ul>
+</li>
+<li>Returns uninstall record to extension</li>
+</ol>
+
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li>400: Missing <code>prolificId</code> in request body</li>
+<li>403: Uninstall already recorded (prevents duplicate tracking)</li>
+<li>500: Internal server error</li>
+</ul>
+
+<p><strong>CORS:</strong> Allows origin <code>https://fto2001.github.io</code> for POST and OPTIONS requests.</p>
+
+<p><strong>Usage:</strong> Called automatically when extension is uninstalled via <code>chrome.runtime.setUninstallURL()</code> configured in Worker.</p>
+<li>Checks if user with Prolific ID already exists</li>
+<li>If exists, throws <code>already-exists</code> error</li>
+<li>If not, creates new user document with:
+   <ul>
+   <li><code>sessionUid</code>: Firebase auth UID</li>
+   <li><code>prolificId</code>: Prolific participant ID</li>
+   <li><code>uid</code>: Generated UUID</li>
+   <li><code>active</code>: true</li>
+   </ul>
+</li>
+<li>Returns user object</li>
+</ol>
+
+<h4 id="analyzescreenshot-function">analyzeScreenshot Function</h4>
+
+<p><strong>Location</strong>: <code>functions/src/analyzeScreenshot.ts</code><br />
+<strong>Purpose</strong>: Analyzes uploaded screenshots (implementation details depend on analysis service)</p>
+
+<h4 id="uninstall-function">uninstall Function</h4>
+
+<p><strong>Location</strong>: <code>functions/src/uninstall.ts</code><br />
+<strong>Purpose</strong>: Tracks extension uninstall events</p>
+
+<h3 id="firestore-structure">Firestore Structure</h3>
+
+<p><strong>Collections:</strong></p>
+<ul>
+<li><code>users/{prolificId}</code>: User documents with <code>sessionUid</code>, <code>prolificId</code>, <code>uid</code>, <code>active</code></li>
+</ul>
+
+<h3 id="remote-config-keys">Remote Config Keys</h3>
+
+<ul>
+<li><code>surveys</code>: JSON string array of survey objects <code>{name: string, url: string}</code></li>
+<li><code>excludedUrlTrackingDomains</code>: JSON string array of domains to exclude from URL tracking</li>
+<li><code>excludedScreenshotsDomains</code>: JSON string array of domains to exclude from screenshots</li>
+<li><code>stopDataCollection</code>: Boolean flag to stop all data collection</li>
+<li><code>stopDataCollectionForSpecifiedUsers</code>: JSON string array of user IDs to stop data collection</li>
+</ul>
+
+<hr />
+
+<h2 id="external-services">External Services</h2>
+
+<h3 id="jitsu-integration">Jitsu Integration</h3>
+
+<p><strong>Purpose</strong>: Event tracking and data ingestion pipeline</p>
+
+<p><strong>Setup:</strong></p>
+<ol>
+<li>Deploy Jitsu via Elestio (see <code>jitsu-bigquery-firebase-setup.md</code>)</li>
+<li>Configure BigQuery as destination in Jitsu dashboard</li>
+<li>Create source (JavaScript SDK) and get write key</li>
+<li>Set <code>JITSU_WRITE_KEY</code> and <code>JITSU_INGEST_URL</code> in environment variables</li>
+</ol>
+
+<p><strong>Event Flow:</strong></p>
+<ol>
+<li>Extension calls <code>EventService.track(event, properties)</code></li>
+<li>Jitsu client sends event to Jitsu server</li>
+<li>Jitsu forwards event to BigQuery</li>
+<li>Data available in BigQuery for analysis</li>
+</ol>
+
+<p><strong>Event Properties:</strong> All events include user identification via <code>client.identify(user.uid)</code></p>
+
+<h3 id="bigquery-integration">BigQuery Integration</h3>
+
+<p><strong>Purpose</strong>: Data warehouse for analytics</p>
+
+<p><strong>Setup:</strong></p>
+<ol>
+<li>Create Google Cloud Project</li>
+<li>Enable BigQuery API</li>
+<li>Create service account with BigQuery permissions</li>
+<li>Configure Jitsu destination with service account credentials</li>
+</ol>
+
+<p><strong>Data Structure:</strong> Events are stored in BigQuery tables with schema defined by Jitsu. Each event includes:</p>
+<ul>
+<li>Event name</li>
+<li>Event properties (varies by event type)</li>
+<li>User identifier</li>
+<li>Timestamp</li>
+</ul>
+
+<hr />
+
+<h2 id="data-flow-details">Data Flow Details</h2>
+
+<h3 id="user-registration-flow">User Registration Flow</h3>
+
+<ol>
+<li><strong>User Input</strong>: User enters Prolific ID in popup</li>
+<li><strong>Validation</strong>: Popup validates Prolific ID format (24 alphanumeric characters)</li>
+<li><strong>Login Request</strong>: Popup sends <code>webmunkExt.popup.loginReq</code> message to worker</li>
+<li><strong>Firebase Auth</strong>: Worker calls <code>FirebaseAppService.login(prolificId)</code>
+   <ul>
+   <li>Signs in anonymously to Firebase</li>
+   <li>Calls Firebase Function <code>signIn</code> with Prolific ID</li>
+   </ul>
+</li>
+<li><strong>User Creation</strong>: Firebase Function creates user in Firestore (or returns error if exists)</li>
+<li><strong>Storage</strong>: User data stored in <code>chrome.storage.local</code></li>
+<li><strong>Response</strong>: Worker sends <code>webmunkExt.popup.loginRes</code> with user data or error</li>
+<li><strong>UI Update</strong>: Popup displays study extension container with identifier and surveys</li>
+<li><strong>Post-Registration</strong>: Worker's <code>handleSuccessfulRegistration()</code> triggers (in order):
+   <ul>
+   <li><code>surveyService.startWeekTiming()</code>: Starts week timing (1-week delay)</li>
+   <li><code>trackInstalledExtensions()</code>: Tracks <code>installed_extensions</code> event with list of installed extensions</li>
+   <li><code>trackProlificUserMapping()</code>: Tracks <code>user_mapping</code> event with Prolific ID</li>
+   <li><code>setUninstallUrl()</code>: Sets uninstall URL to <code>{UNINSTALL_URL}?key=webmunk&userId={prolificId}</code></li>
+   </ul>
+</li>
+</ol>
+
+<h3 id="ad-detection-flow">Ad Detection Flow</h3>
+
+<ol>
+<li><strong>Page Load</strong>: User navigates to web page</li>
+<li><strong>Content Script Injection</strong>: Extension injects content script into page</li>
+<li><strong>Module Content Scripts</strong>: Extension-ads module content script initializes</li>
+<li><strong>Network Monitoring</strong>: Background worker monitors network requests via webRequest API</li>
+<li><strong>URL Filtering</strong>: URL filters match ad-related requests</li>
+<li><strong>Ad Detection</strong>: ExtensionAdsWorker detects ad elements</li>
+<li><strong>Ad Data Collection</strong>: Collects ad information (title, text, images, coordinates, URLs)</li>
+<li><strong>Event Emission</strong>: Emits <code>ad_detected</code> event</li>
+<li><strong>Main Worker Processing</strong>: Main worker receives event, tracks via EventService</li>
+<li><strong>Rate Service Check</strong>: RateService checks if rating prompt should be shown (10-minute cooldown)</li>
+<li><strong>Rating UI</strong>: If allowed, content script displays rating notification</li>
+<li><strong>User Response</strong>: User rates ad, response sent to background</li>
+<li><strong>Event Tracking</strong>: <code>ads_rated</code> event tracked, screenshot captured</li>
+</ol>
+
+<h3 id="survey-flow">Survey Flow</h3>
+
+<ol>
+<li><strong>Config Fetch</strong>: ConfigService fetches surveys from Firebase Remote Config</li>
+<li><strong>Timing Check</strong>: SurveyService checks if week has passed since last survey</li>
+<li><strong>Survey Loading</strong>: If timing allows, loads next survey from config
+   <ul>
+   <li>Appends Prolific ID as query parameter</li>
+   <li>Appends ad personalization config parameters</li>
+   </ul>
+</li>
+<li><strong>Storage</strong>: Survey stored in <code>chrome.storage.local</code> under <code>surveys</code> key</li>
+<li><strong>Popup Display</strong>: Popup displays survey list</li>
+<li><strong>User Completion</strong>: User opens survey URL, completes survey</li>
+<li><strong>Completion Detection</strong>: SurveyService detects completion via URL tracking
+   <ul>
+   <li>Checks if current URL is completion callback URL</li>
+   <li>Checks if opener tab URL matches survey URL</li>
+   </ul>
+</li>
+<li><strong>Processing</strong>:
+   <ul>
+   <li>Extracts query parameters from completion URL</li>
+   <li>Stores personalization configs</li>
+   <li>Marks survey as completed</li>
+   <li>Removes survey from active list</li>
+   <li>Triggers cookie recording</li>
+   <li>Starts week timing</li>
+   </ul>
+</li>
+<li><strong>Event Tracking</strong>: <code>survey_completed</code> event tracked</li>
+</ol>
+
+<h3 id="event-tracking-flow">Event Tracking Flow</h3>
+
+<ol>
+<li><strong>Event Occurs</strong>: Any event occurs (ad detected, URL tracked, survey completed, etc.)</li>
+<li><strong>EventService.track()</strong>: Code calls <code>eventService.track(event, properties)</code></li>
+<li><strong>User Validation</strong>: EventService validates user exists and is active</li>
+<li><strong>Jitsu Identify</strong>: Jitsu client identifies user by UID</li>
+<li><strong>Jitsu Track</strong>: Jitsu client sends event to Jitsu server</li>
+<li><strong>Jitsu Processing</strong>: Jitsu processes and forwards event to BigQuery</li>
+<li><strong>BigQuery Storage</strong>: Event stored in BigQuery table</li>
+<li><strong>Analysis</strong>: Data available for SQL queries and analysis</li>
+</ol>
+
+<h3 id="screenshot-flow">Screenshot Flow</h3>
+
+<ol>
+<li><strong>Trigger</strong>: Screenshot triggered by:
+   <ul>
+   <li>Page scroll/click events (1-minute throttling) - via content script sending <code>page_action</code> message</li>
+   <li>URL tracking (periodic) - when tab URL changes and status is 'complete'</li>
+   </ul>
+   <strong>Note:</strong> Ad rating is not a separate screenshot trigger. Instead, after a screenshot is analyzed and ads are detected (<code>response.result !== '0'</code>), the <code>rateService.send()</code> method is called to show the rating popup.
+</li>
+<li><strong>Domain Check</strong>: ScreenshotService checks if domain is excluded via <code>domainService.isNeedToExcludeSpecifiedDomain(url, ExcludedDomains.screenshots)</code></li>
+<li><strong>Notification Check</strong>: Checks if notification is visible on page:
+   <ul>
+   <li>Sends <code>webmunkExt.screenshotService.isThereNotificationReq</code> to content script</li>
+   <li>Content script checks for elements with IDs <code>webmunk-notification</code> or <code>webmunk-rate-notification</code></li>
+   <li>Returns <code>webmunkExt.notificationService.isThereNotificationRes</code> with boolean result</li>
+   </ul>
+</li>
+<li><strong>Data Collection Guard</strong>: <code>isNeedToStopDataCollection()</code> stops screenshots when:
+   <ul>
+   <li>Remote Config <code>stopDataCollection</code> is true</li>
+   <li>User is in <code>stopDataCollectionForSpecifiedUsers</code> list</li>
+   <li>User has completed 2 surveys</li>
+   </ul>
+</li>
+<li><strong>Throttle Check</strong>: Ensures 1 minute (60000ms) passed since last screenshot via <code>isOneMinutePassed()</code> (updates <code>lastScreenshot</code> when passing)</li>
+<li><strong>Capture</strong>: <code>chrome.tabs.captureVisibleTab()</code> captures screenshot as data URL (JPEG, 50% quality)</li>
+<li><strong>Blob Conversion</strong>: Converts data URL to Blob using <code>dataURLToBlob()</code> method</li>
+<li><strong>Firebase Upload</strong>: Uploads blob to Firebase Storage via <code>firebaseAppService.uploadScreenshotToFirebase()</code></li>
+<li><strong>Analysis</strong>: Sends screenshot URL to Firebase Cloud Function <code>analyzeScreenshot</code> (<code>https://analyzescreenshot-wuagwq3jva-uc.a.run.app</code>):
+   <ul>
+   <li>POST request with <code>dataUrl</code> (Firebase Storage URL) in JSON body</li>
+   <li>Primary call: Azure OpenAI <code>gpt-5</code> via secrets <code>AZURE_OPENAI_API_KEY</code> and <code>AZURE_OPENAI_ENDPOINT</code>; fallback: OpenAI Responses API with <code>gpt-5</code></li>
+   <li>Returns JSON: <code>{ result: "[TOTAL]+---+[AD1]+---+[AD2]+---+..." }</code> where each AD is <code>brand || description || price</code></li>
+   </ul>
+</li>
+<li><strong>Event Tracking</strong>: Tracks <code>screen_analysis</code> with <code>timestamp</code>, <code>pageUrl</code>, and API <code>response</code></li>
+<li><strong>Ad Rating Trigger</strong>: If <code>response.result !== '0'</code>, calls <code>rateService.send(tabId, timestamp)</code> to show rating popup (see <a href="#rateservice-worker">RateService (Worker)</a>)</li>
+</ol>
+
+<hr />
+
+<h2 id="deployment-instructions">Deployment Instructions</h2>
+
+<h3 id="development-setup">Development Setup</h3>
+
+<ol>
+<li><strong>Install Dependencies</strong>:
+   <pre><code class="language-bash">cd webmunk-ext
+npm install
+npm install @webmunk/cookies-scraper
+npm install @webmunk/extension-ads
+npm install @webmunk/ad-personalization
+npm install @webmunk/utils
+</code></pre>
+</li>
+<li><strong>Set Up Environment Variables</strong>:
+   <ul>
+   <li>Create <code>.env.development</code> file in <code>webmunk-ext/</code> directory</li>
+   <li>Add all required environment variables (see <a href="#configuration">Configuration</a> section)</li>
+   </ul>
+</li>
+<li><strong>Build Extension</strong>:
+   <pre><code class="language-bash">npm run addon:dev:hot
+</code></pre>
+   This creates <code>dist/</code> directory with development build
+</li>
+<li><strong>Load in Chrome</strong>:
+   <ul>
+   <li>Open Chrome and navigate to <code>chrome://extensions/</code></li>
+   <li>Enable "Developer mode"</li>
+   <li>Click "Load unpacked"</li>
+   <li>Select <code>webmunk-ext/dist/</code> directory</li>
+   </ul>
+</li>
+<li><strong>Debug</strong>:
+   <ul>
+   <li>Service Worker: Click "service worker" link in extension card</li>
+   <li>Content Scripts: Use Chrome DevTools on web pages</li>
+   <li>Popup: Right-click extension icon → "Inspect popup"</li>
+   </ul>
+</li>
+</ol>
+
+<h3 id="production-build">Production Build</h3>
+
+<ol>
+<li><strong>Set Production Environment</strong>:
+   <ul>
+   <li>Create <code>.env.production</code> file with production values</li>
+   <li>Ensure all Firebase, Jitsu, and URL configurations are correct</li>
+   </ul>
+</li>
+<li><strong>Build Production Version</strong>:
+   <pre><code class="language-bash">npm run addon:build:prod
+</code></pre>
+</li>
+<li><strong>Create Zip for Chrome Web Store</strong>:
+   <pre><code class="language-bash">npm run addon:build:prod-zip
+</code></pre>
+   This creates <code>dist.zip</code> file
+</li>
+<li><strong>Upload to Chrome Web Store</strong>:
+   <ul>
+   <li>Go to Chrome Web Store Developer Dashboard</li>
+   <li>Create new item or update existing</li>
+   <li>Upload <code>dist.zip</code> file</li>
+   <li>Fill in store listing information</li>
+   <li>Submit for review</li>
+   </ul>
+</li>
+</ol>
+
+<h3 id="firebase-deployment">Firebase Deployment</h3>
+
+<ol>
+<li><strong>Install Firebase CLI</strong>:
+   <pre><code class="language-bash">npm install -g firebase-tools
+firebase login
+</code></pre>
+</li>
+<li><strong>Initialize Firebase</strong>:
+   <pre><code class="language-bash">cd functions
+firebase init
+</code></pre>
+   Select:
+   <ul>
+   <li>Firestore</li>
+   <li>Functions</li>
+   <li>Remote Config (configure manually in console)</li>
+   </ul>
+</li>
+<li><strong>Deploy Functions</strong>:
+   <pre><code class="language-bash">firebase deploy --only functions
+</code></pre>
+</li>
+<li><strong>Set Up Remote Config</strong>:
+   <ul>
+   <li>Go to Firebase Console → Remote Config</li>
+   <li>Create parameters: <code>surveys</code>, <code>excludedUrlTrackingDomains</code>, <code>excludedScreenshotsDomains</code>, <code>stopDataCollection</code>, <code>stopDataCollectionForSpecifiedUsers</code></li>
+   <li>Set default values</li>
+   </ul>
+</li>
+<li><strong>Configure Firestore Rules</strong>:
+   <ul>
+   <li>Go to Firebase Console → Firestore Database → Rules</li>
+   <li>Set appropriate security rules for <code>users</code> collection</li>
+   </ul>
+</li>
+</ol>
+
+<h3 id="jitsu-bigquery-setup">Jitsu & BigQuery Setup</h3>
+
+<p>See <code>jitsu-bigquery-firebase-setup.md</code> for detailed instructions. Summary:</p>
+
+<ol>
+<li><strong>Deploy Jitsu</strong>:
+   <ul>
+   <li>Sign up at <a href="https://elest.io">elest.io</a></li>
+   <li>Create new project with Jitsu service</li>
+   <li>Access Jitsu dashboard</li>
+   </ul>
+</li>
+<li><strong>Set Up BigQuery</strong>:
+   <ul>
+   <li>Create Google Cloud Project</li>
+   <li>Enable BigQuery API</li>
+   <li>Create service account with BigQuery permissions</li>
+   <li>Download service account JSON key</li>
+   </ul>
+</li>
+<li><strong>Configure Jitsu Destination</strong>:
+   <ul>
+   <li>In Jitsu dashboard, add BigQuery destination</li>
+   <li>Upload service account JSON key</li>
+   <li>Configure dataset name</li>
+   </ul>
+</li>
+<li><strong>Create Jitsu Source</strong>:
+   <ul>
+   <li>In Jitsu dashboard, add JavaScript SDK source</li>
+   <li>Copy write key and ingest URL</li>
+   <li>Add to extension environment variables</li>
+   </ul>
+</li>
+</ol>
+
+<hr />
+
+<h2 id="extension-guide">Extension Guide for Research</h2>
+
+<h3 id="adding-a-new-module">Adding a New Module</h3>
+
+<ol>
+<li><strong>Create Module Directory</strong>:
+   <pre><code>packages/modules/your-module-name/
+</code></pre>
+</li>
+<li><strong>Create Module Structure</strong>:
+   <pre><code>your-module-name/
+  ├── module.json          # Module configuration
+  ├── package.json         # Module dependencies
+  ├── tsconfig.json        # TypeScript config
+  └── src/
+      ├── worker/          # Background worker code
+      │   └── YourModuleWorker.ts
+      └── content/         # Content script code (optional)
+          └── YourModuleContent.ts
+</code></pre>
+</li>
+<li><strong>Define Module Configuration</strong> (<code>module.json</code>):
+   <pre><code class="language-json">{
+  "name": "Your Module Name",
+  "permissions": [
+    {"name": "permission_name", "justification": "reason"}
+  ],
+  "host_permissions": []  // Optional
+}
+</code></pre>
+</li>
+<li><strong>Implement Module</strong>:
+   <ul>
+   <li>Register module with messenger: <code>messenger.registerModule('module-name')</code></li>
+   <li>Emit events: <code>eventEmitter.emit('event_name', data)</code></li>
+   <li>Handle messages: Use <code>messenger.addReceiver()</code> pattern</li>
+   </ul>
+</li>
+<li><strong>Import in Main Extension</strong>:
+   <ul>
+   <li>In <code>webmunk-ext/src/worker/index.ts</code>: <code>import "@webmunk/your-module/worker"</code></li>
+   <li>In <code>webmunk-ext/src/content/index.ts</code>: <code>import "@webmunk/your-module/content"</code> (if content script exists)</li>
+   </ul>
+</li>
+<li><strong>Listen to Module Events</strong>:
+   <pre><code class="language-typescript">// In Worker.ts
+messenger.addModuleListener('module-name', this.onModuleEvent.bind(this));
+
+private onModuleEvent(event: string, data: any): void {
+  // Handle module events
+  this.eventService.track(event, data);
+}
+</code></pre>
+</li>
+</ol>
+
+<h3 id="adding-new-event-tracking">Adding New Event Tracking</h3>
+
+<ol>
+<li><strong>Define Event Name</strong>: Choose descriptive event name (e.g., <code>custom_interaction</code>)</li>
+<li><strong>Track Event</strong>:
+   <pre><code class="language-typescript">await this.eventService.track('custom_interaction', {
+  property1: value1,
+  property2: value2
+});
+</code></pre>
+</li>
+<li><strong>Event Automatically Sent</strong>: EventService handles sending to Jitsu → BigQuery</li>
+<li><strong>Query in BigQuery</strong>: Events available in BigQuery for analysis</li>
+</ol>
+
+<h3 id="customizing-ad-detection">Customizing Ad Detection</h3>
+
+<ol>
+<li><strong>Modify URL Filters</strong>:
+   <ul>
+   <li>Edit <code>packages/modules/extension-ads/src/worker/url-filter.json</code></li>
+   <li>Add or modify filter rules</li>
+   </ul>
+</li>
+<li><strong>Adjust Cosmetic Filters</strong>:
+   <ul>
+   <li>Edit filter lists in <code>packages/modules/extension-ads/ublock/</code></li>
+   </ul>
+</li>
+<li><strong>Customize Rate Service</strong>:
+   <ul>
+   <li>Modify cooldown in <code>webmunk-ext/src/worker/RateService.ts</code> (<code>DELAY_BETWEEN_AD_RATING_POPUP</code>)</li>
+   <li>Change rating questions in <code>webmunk-ext/src/content/RateService.ts</code></li>
+   </ul>
+</li>
+</ol>
+
+<h3 id="adding-survey-types">Adding Survey Types</h3>
+
+<ol>
+<li><strong>Configure in Firebase Remote Config</strong>:
+   <ul>
+   <li>Add survey to <code>surveys</code> parameter in Firebase Console</li>
+   <li>Format: <code>[{"name": "Survey Name", "url": "https://survey-url.com"}]</code></li>
+   </ul>
+</li>
+<li><strong>Modify SurveyService (if needed)</strong>:
+   <ul>
+   <li>Customize survey loading logic in <code>webmunk-ext/src/worker/SurveyService.ts</code></li>
+   <li>Add custom completion detection if needed</li>
+   </ul>
+</li>
+<li><strong>Add Completion Detection</strong>:
+   <ul>
+   <li>Modify <code>surveyCompleteListener()</code> in SurveyService</li>
+   <li>Add URL pattern matching for completion callback</li>
+   </ul>
+</li>
+</ol>
+
+<h3 id="customizing-notifications">Customizing Notifications</h3>
+
+<ol>
+<li><strong>Modify Notification Text</strong>:
+   <ul>
+   <li>Edit <code>webmunk-ext/src/enums.ts</code> - <code>NotificationText</code> enum</li>
+   </ul>
+</li>
+<li><strong>Customize Notification Styling</strong>:
+   <ul>
+   <li>Edit CSS in <code>webmunk-ext/src/content/NotificationService.ts</code></li>
+   <li>Modify HTML structure in <code>displayNotification()</code> method</li>
+   </ul>
+</li>
+<li><strong>Add New Notification Types</strong>:
+   <ul>
+   <li>Add new enum value in <code>NotificationText</code></li>
+   <li>Add logic to trigger notification in Worker or services</li>
+   </ul>
+</li>
+</ol>
+
+<hr />
+
+<h2 id="required-knowledge">Required Knowledge</h2>
+
+<h3 id="chrome-extension-development">Chrome Extension Development</h3>
+
+<ul>
+<li><strong>Manifest V3</strong>:
+   <ul>
+   <li>Service workers (replaces background pages)</li>
+   <li>Content scripts and isolated worlds</li>
+   <li>Message passing APIs</li>
+   <li>Storage APIs (<code>chrome.storage.local</code>)</li>
+   <li>Permissions and host permissions</li>
+   </li>
+</ul>
+</li>
+<li><strong>Chrome APIs</strong>:
+   <ul>
+   <li><code>chrome.runtime</code>: Message passing, extension lifecycle</li>
+   <li><code>chrome.tabs</code>: Tab management, screenshot capture</li>
+   <li><code>chrome.storage</code>: Data persistence</li>
+   <li><code>chrome.webRequest</code>: Network request monitoring</li>
+   <li><code>chrome.cookies</code>: Cookie access</li>
+   </li>
+</ul>
+</li>
+<li><strong>Service Worker Lifecycle</strong>:
+   <ul>
+   <li>Service workers can be terminated by Chrome</li>
+   <li>State must be persisted in storage, not memory</li>
+   <li>Event listeners must be re-registered on startup</li>
+   </li>
+</ul>
+</li>
+</ul>
+
+<h3 id="typescript">TypeScript</h3>
+
+<ul>
+<li><strong>Type Definitions</strong>: Understanding type annotations and interfaces</li>
+<li><strong>Module System</strong>: ES6 imports/exports</li>
+<li><strong>Async/Await</strong>: Promise handling patterns</li>
+<li><strong>Type Guards</strong>: Runtime type checking</li>
+</ul>
+
+<h3 id="webpack">Webpack</h3>
+
+<ul>
+<li><strong>Entry Points</strong>: Multiple entry points for different bundles</li>
+<li><strong>Loaders</strong>: Processing different file types (TypeScript, JavaScript, etc.)</li>
+<li><strong>Plugins</strong>: Build-time processing (manifest generation, asset copying)</li>
+<li><strong>Environment Variables</strong>: Injecting variables at build time</li>
+</ul>
+
+<h3 id="firebase">Firebase</h3>
+
+<ul>
+<li><strong>Authentication</strong>: Anonymous and custom authentication</li>
+<li><strong>Firestore</strong>: NoSQL document database</li>
+<li><strong>Remote Config</strong>: Remote configuration management</li>
+<li><strong>Storage</strong>: File storage for screenshots</li>
+<li><strong>Cloud Functions</strong>: Serverless functions (TypeScript/Node.js)</li>
+</ul>
+
+<h3 id="analytics">Analytics</h3>
+
+<ul>
+<li><strong>Event Tracking</strong>: Understanding event-based analytics</li>
+<li><strong>Data Pipelines</strong>: Event ingestion → processing → storage</li>
+<li><strong>BigQuery</strong>: SQL queries on event data</li>
+<li><strong>User Identification</strong>: Identifying users across sessions</li>
+</ul>
+
+<hr />
+
+<h2 id="common-patterns">Common Patterns & Best Practices</h2>
+
+<h3 id="message-passing-pattern">Message Passing Pattern</h3>
+
+<p><strong>Action-Based Routing:</strong></p>
+<pre><code class="language-typescript">// Sender
+chrome.runtime.sendMessage({
+  action: 'receiver.method',  // Format: receiverName.methodName
+  data: { /* payload */ }
+});
+
+// Receiver
+messenger.addReceiver('receiver', {
+  _onMessage_method: async (data, from, reply) => {
+    try {
+      const result = await doSomething(data);
+      reply({ ok: true, data: result });
+    } catch (error) {
+      reply({ error: error.message });
+    }
+  }
+});
+</code></pre>
+
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Always use <code>receiver.method</code> format for actions</li>
+<li>Handle errors and reply with error objects</li>
+<li>Use async/await for asynchronous operations</li>
+<li>Return structured responses: <code>{ok: true, data: ...}</code> or <code>{error: ...}</code></li>
+</ul>
+
+<h3 id="module-communication-pattern">Module Communication Pattern</h3>
+
+<p><strong>Event Emission:</strong></p>
+<pre><code class="language-typescript">// In module
+this.eventEmitter = messenger.registerModule('module-name');
+this.eventEmitter.emit('event_name', { data: 'value' });
+
+// In main worker
+messenger.addModuleListener('module-name', (event, data) => {
+  // Handle event
+  this.eventService.track(event, data);
+});
+</code></pre>
+
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Use descriptive event names</li>
+<li>Include relevant data in event payload</li>
+<li>Keep modules decoupled (no direct imports between modules)</li>
+<li>Document event names and payloads</li>
+</ul>
+
+<h3 id="state-management-pattern">State Management Pattern</h3>
+
+<p><strong>Chrome Storage Usage:</strong></p>
+<pre><code class="language-typescript">// Write
+await chrome.storage.local.set({ key: value });
+
+// Read
+const result = await chrome.storage.local.get('key');
+const value = result.key;
+
+// Read multiple
+const { key1, key2 } = await chrome.storage.local.get(['key1', 'key2']);
+</code></pre>
+
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Use <code>chrome.storage.local</code> for persistent data</li>
+<li>Don't store large objects (use size limits)</li>
+<li>Handle storage quota exceeded errors</li>
+<li>Use structured keys (e.g., <code>'adPersonalization.items'</code>)</li>
+</ul>
+
+<h3 id="error-handling-pattern">Error Handling Pattern</h3>
+
+<pre><code class="language-typescript">try {
+  const result = await riskyOperation();
+  return result;
+} catch (error: any) {
+  console.error('Operation failed:', error);
+  // Log to analytics if needed
+  this.eventService.track('error_occurred', { error: error.message });
+  // Return fallback or rethrow
+  throw error;
+}
+</code></pre>
+
+<hr />
+
+<h2 id="troubleshooting">Troubleshooting & Debugging</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<h4 id="module-not-loading">Module Not Loading</h4>
+
+<p><strong>Symptoms:</strong> Module events not received, module functionality not working</p>
+
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Check module is imported in <code>src/worker/index.ts</code> or <code>src/content/index.ts</code></li>
+<li>Verify module is registered: <code>messenger.registerModule('module-name')</code></li>
+<li>Check module listener is added: <code>messenger.addModuleListener('module-name', callback)</code></li>
+<li>Check browser console for import errors</li>
+</ul>
+
+<h4 id="messages-not-received">Messages Not Received</h4>
+
+<p><strong>Symptoms:</strong> Message sent but no response, receiver not called</p>
+
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Verify action format: <code>receiver.method</code> (not <code>receiver_method</code> or <code>receiver/method</code>)</li>
+<li>Check receiver is registered: <code>messenger.addReceiver('receiver', object)</code></li>
+<li>Verify method name: <code>_onMessage_method</code> (with <code>_onMessage_</code> prefix)</li>
+<li>Check Chrome DevTools console for message errors</li>
+<li>Verify service worker is running (not terminated)</li>
+</ul>
+
+<h4 id="firebase-auth-failures">Firebase Auth Failures</h4>
+
+<p><strong>Symptoms:</strong> Login fails, user not created</p>
+
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Check Firebase config in environment variables</li>
+<li>Verify Firebase project is set up correctly</li>
+<li>Check Firebase Functions are deployed</li>
+<li>Verify Firestore rules allow user creation</li>
+<li>Check browser console for Firebase errors</li>
+</ul>
+
+<h4 id="build-errors">Build Errors</h4>
+
+<p><strong>Symptoms:</strong> Webpack build fails, TypeScript errors</p>
+
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Check TypeScript errors: <code>tsc --noEmit</code></li>
+<li>Verify all dependencies installed: <code>npm install</code></li>
+<li>Check environment variables are set</li>
+<li>Verify module.json files are valid JSON</li>
+<li>Check webpack config for syntax errors</li>
+</ul>
+
+<h3 id="debugging-tools">Debugging Tools</h3>
+
+<h4 id="service-worker-debugging">Service Worker Debugging</h4>
+
+<ul>
+<li>Open <code>chrome://extensions/</code></li>
+<li>Find extension, click "service worker" link</li>
+<li>Use Chrome DevTools for service worker</li>
+<li>Check Console for errors and logs</li>
+<li>Use Network tab to see API calls</li>
+<li>Use Application tab → Storage to inspect <code>chrome.storage.local</code></li>
+</ul>
+
+<h4 id="content-script-debugging">Content Script Debugging</h4>
+
+<ul>
+<li>Open web page where content script runs</li>
+<li>Open Chrome DevTools (F12)</li>
+<li>Check Console for content script logs</li>
+<li>Use Sources tab to set breakpoints in content script code</li>
+<li>Check Elements tab to see injected notification elements</li>
+</ul>
+
+<h4 id="popup-debugging">Popup Debugging</h4>
+
+<ul>
+<li>Right-click extension icon → "Inspect popup"</li>
+<li>Use Chrome DevTools for popup</li>
+<li>Check Console for errors</li>
+<li>Use Network tab to see message passing</li>
+</ul>
+
+<h4 id="network-debugging">Network Debugging</h4>
+
+<ul>
+<li>Service Worker: Use Network tab in service worker DevTools</li>
+<li>Content Scripts: Use Network tab in page DevTools</li>
+<li>Check for failed API calls (Firebase, Jitsu, etc.)</li>
+<li>Verify CORS headers if making external API calls</li>
+</ul>
+
+<h4 id="storage-inspection">Storage Inspection</h4>
+
+<ul>
+<li>Service Worker DevTools → Application tab → Storage → chrome.storage.local</li>
+<li>Inspect stored data (user, surveys, configs, etc.)</li>
+<li>Manually modify data for testing (use with caution)</li>
+<li>Clear storage to reset extension state</li>
+</ul>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>This documentation provides a complete reference for the Webmunk Extension codebase, including:</p>
+
+<ul>
+<li><strong>Architecture Overview</strong>: Modular Chrome extension with service worker, content scripts, and pluggable modules</li>
+<li><strong>Flow Diagrams</strong>: Visual representation of extension architecture, module system, data flows, and build process</li>
+<li><strong>Core Files</strong>: Detailed documentation of all core extension files (Worker, Content, Popup, Services)</li>
+<li><strong>Module System</strong>: Complete documentation of all modules (extension-ads, cookies, ad-personalization) and messenger system</li>
+<li><strong>Build System</strong>: Webpack configuration, manifest merging, and build commands</li>
+<li><strong>Firebase Integration</strong>: Authentication, Firestore, Remote Config, Storage, and Cloud Functions</li>
+<li><strong>External Services</strong>: Jitsu and BigQuery integration for event tracking and analytics</li>
+<li><strong>Data Flows</strong>: Detailed flows for user registration, ad detection, surveys, events, and screenshots</li>
+<li><strong>Deployment</strong>: Instructions for development, production, Firebase, and Jitsu/BigQuery setup</li>
+<li><strong>Extension Guide</strong>: How to add new modules, events, customize features, and extend for research</li>
+<li><strong>Required Knowledge</strong>: Prerequisites for understanding and modifying the extension</li>
+<li><strong>Common Patterns</strong>: Best practices for message passing, module communication, and state management</li>
+<li><strong>Troubleshooting</strong>: Common issues and debugging techniques</li>
+</ul>
+
+<p>For questions or clarifications, refer to the specific file paths and code references provided throughout this document.</p>
+
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>The extension uses a modular architecture with a messenger system for decoupled communication</li>
+<li>All events are tracked via EventService → Jitsu → BigQuery for analysis</li>
+<li>Modules are pluggable and can be added/removed without modifying core extension code</li>
+<li>State is persisted in <code>chrome.storage.local</code> to survive service worker termination</li>
+<li>Build system automatically merges module manifests and permissions</li>
+</ul>
+  </article>
+</main>
+<button id='scrollTop' title='Back to top'>↑</button>
+<script>
+const searchInput = document.getElementById('nav-search');
+const navContent = document.getElementById('nav-content');
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  navContent.querySelectorAll('li').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(query) ? '' : 'none';
+  });
+});
+const btn = document.getElementById('scrollTop');
+btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+const headings = document.querySelectorAll('article h2, article h3');
+const navLinks = Array.from(navContent.querySelectorAll('a'));
+const linkMap = new Map(navLinks.map(link => [link.getAttribute('href').slice(1), link]));
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navContent.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+      const link = linkMap.get(entry.target.id);
+      if (link) {
+        let node = link.parentElement;
+        node.classList.add('active');
+        while (node && node !== navContent) {
+          if (node.tagName === 'LI') node.classList.add('active');
+          node = node.parentElement.parentElement;
+        }
+      }
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+headings.forEach(h => observer.observe(h));
+</script>
+</body>
+</html>
